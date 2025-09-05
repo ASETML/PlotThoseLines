@@ -19,11 +19,18 @@ Par exemple :
 
 ## Planification
 Les tâches seront réalisée dans cette ordre:
+### Semaine 3
 - [Afficher des séries temporelles](https://github.com/ASETML/PlotThoseLines/issues/1)
+### Semaine 4
 - [Flexibilité de l'affichage](https://github.com/ASETML/PlotThoseLines/issues/2)
+### Semaine 5
 - [Importer des séries de manières permanentes](https://github.com/ASETML/PlotThoseLines/issues/3)
+### Semaine 6
 - [Joindre des séries](https://github.com/ASETML/PlotThoseLines/issues/4)
-- [Afficher des fonctions](https://github.com/ASETML/PlotThoseLines/issues/5)
+### Semaine 7
+- Retouches, améliorations
+
+La story [Afficher des fonctions](https://github.com/ASETML/PlotThoseLines/issues/5) ne sera pas réalisée par manque de temps.
 
 ## Rapport de tests
 ## Journal de travail
