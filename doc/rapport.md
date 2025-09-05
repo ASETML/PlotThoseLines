@@ -2,6 +2,15 @@
 ## Introduction
 ### Objectif pédagogique
 ### Objectif produit
+#### Maquettes
+- La page d'accueil: 
+!["Page d'accueil"](./img/maquette-accueil.png)
+- La page d'importation des données:
+!["Page d'importation"](./img/maquette-import.png)
+- La page de jonction des séries:
+!["Page de jonction"](./img/maquette-jonction.png)
+- La page des fonctions:
+!["Page des fonctions"](./img/maquette-fonction.png)
 ### Description du domaine
 L'application `Plot Those Lines` sera utilisé pour observer l'évolution du PIB. Chaque série sera l'évolution du PIB par pays au fil des ans. Les données seront téléchargées depuis le site de l'[International Monetary Fund](https://imf.org).
 Par exemple : 
