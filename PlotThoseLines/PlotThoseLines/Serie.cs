@@ -20,9 +20,9 @@ namespace PlotThoseLines
             this.IsDisplayed = true;
         }
 
-        public override string ToString() {
-
-            return IsDisplayed ? $"Série {Name} affichée avec les valeurs {XaxisValue} en abscisse et {YaxisValue} en ordonnée" : $"Série {Name} non affichée avec les valeurs {XaxisValue} en abscisse et {YaxisValue} en ordonnée";
+        public override string ToString()
+        {
+            return $"Série {Name} avec les valeurs {XaxisValue} en abscisse et {YaxisValue} en ordonnée. Afficher: {IsDisplayed}";
         }
     }
 }

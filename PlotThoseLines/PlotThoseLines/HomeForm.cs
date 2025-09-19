@@ -2,10 +2,8 @@ using System.Diagnostics;
 
 namespace PlotThoseLines
 {
-    public partial class HomeForm : Form
+    partial class HomeForm : Form
     {
-        List<Serie> series = new List<Serie>();
-
         public HomeForm()
         {
             InitializeComponent();
@@ -16,13 +14,13 @@ namespace PlotThoseLines
             double[] dx = { 1, 2, 3, 5, 50, -5 };
             double[] dy = { 10, 9, 8, 12, -10, 25 };
 
-            series.Add(new Serie("1", dataX, dataY));
-            series.Add(new Serie("2", dx, dy));
+            Series.AddSerie(new Serie("1", dataX, dataY));
+            Series.AddSerie(new Serie("2", dx, dy));
 
             PlotForm();
 
             //Binding à la checkbox seulement après ajout des données
-            ((ListBox)this.checkedListBox1).DataSource = series;
+            ((ListBox)this.checkedListBox1).DataSource = Series.GetSeries();
             ((ListBox)this.checkedListBox1).DisplayMember = "Name";
             ((ListBox)this.checkedListBox1).ValueMember = "IsDisplayed";
 
@@ -41,7 +39,7 @@ namespace PlotThoseLines
 
         private void PlotForm()
         {
-            series.ForEach(s => formsPlot1.Plot.Add.Scatter(s.XaxisValue, s.YaxisValue));
+            Series.GetSeries().ForEach(s => formsPlot1.Plot.Add.Scatter(s.XaxisValue, s.YaxisValue));
             formsPlot1.Refresh();
         }
 
