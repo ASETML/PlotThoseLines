@@ -1,0 +1,28 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace PlotThoseLines
+{
+    class Serie
+    {
+        public string Name { get; set; }
+        public double[] XaxisValue { get; set; }
+        public double[] YaxisValue { get; set; }
+        public bool IsDisplayed { get; set; }
+        
+        public Serie(string name, double[] x, double[] y) {
+            this.Name = name;
+            this.XaxisValue = x;
+            this.YaxisValue = y;
+            this.IsDisplayed = true;
+        }
+
+        public override string ToString() {
+
+            return IsDisplayed ? $"Série {Name} affichée avec les valeurs {XaxisValue} en abscisse et {YaxisValue} en ordonnée" : $"Série {Name} non affichée avec les valeurs {XaxisValue} en abscisse et {YaxisValue} en ordonnée";
+        }
+    }
+}
