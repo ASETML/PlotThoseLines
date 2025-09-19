@@ -1,9 +1,9 @@
 namespace PlotThoseLines
 {
-    public partial class Form1 : Form
+    public partial class HomeForm : Form
     {
 
-        public Form1()
+        public HomeForm()
         {
             InitializeComponent();
 
@@ -17,6 +17,18 @@ namespace PlotThoseLines
             formsPlot1.Plot.Add.Scatter(dx, dy);
 
             formsPlot1.Refresh();
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            ImportForm importForm = new ImportForm();
+            importForm.Show();
+        }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+            JunctionForm junctionForm = new JunctionForm();
+            junctionForm.Show();
         }
     }
 }
