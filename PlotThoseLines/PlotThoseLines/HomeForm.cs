@@ -1,3 +1,5 @@
+using System.Diagnostics;
+
 namespace PlotThoseLines
 {
     public partial class HomeForm : Form
@@ -16,11 +18,25 @@ namespace PlotThoseLines
 
             series.Add(new Serie("1", dataX, dataY));
             series.Add(new Serie("2", dx, dy));
+
             PlotForm();
 
-            formsPlot1.Plot.Add.Scatter(dataX, dataY);
-            formsPlot1.Plot.Add.Scatter(dx, dy);
+            //Binding à la checkbox seulement après ajout des données
+            ((ListBox)this.checkedListBox1).DataSource = series;
+            ((ListBox)this.checkedListBox1).DisplayMember = "Name";
+            ((ListBox)this.checkedListBox1).ValueMember = "IsDisplayed";
 
+            foreach (var s in checkedListBox1.Items)
+            {
+                Trace.WriteLine(s);
+            }
+
+            //Coche les élèments par défaut https://stackoverflow.com/questions/7485631/winforms-how-to-bind-the-checkbox-item-of-a-checkedlistbox-with-databinding
+            for (int i = 0; i < checkedListBox1.Items.Count; i++)
+            {
+                Serie obj = (Serie)checkedListBox1.Items[i];
+                checkedListBox1.SetItemChecked(i, obj.IsDisplayed);
+            }
         }
 
         private void PlotForm()
