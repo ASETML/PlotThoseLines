@@ -36,8 +36,8 @@ namespace PlotThoseLines
         private void PlotForm()
         {
             Series.GetSeries().ForEach(s => formsPlot1.Plot.Add.Scatter(s.XaxisValue, s.YaxisValue));
-            formsPlot1.Refresh();
             formsPlot1.Plot.Axes.AutoScale();
+            formsPlot1.Refresh();
         }
 
         private void button1_Click(object sender, EventArgs e)
