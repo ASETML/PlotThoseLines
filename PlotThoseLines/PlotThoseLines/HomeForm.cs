@@ -1,3 +1,4 @@
+using ScottPlot.AxisPanels;
 using System.Diagnostics;
 
 namespace PlotThoseLines
@@ -8,14 +9,14 @@ namespace PlotThoseLines
         {
             InitializeComponent();
 
-            double[] dataX = { 1, 2, 3, 4, 5 };
+            /*double[] dataX = { 1, 2, 3, 4, 5 };
             double[] dataY = { 1, 4, 9, 16, 25 };
 
             double[] dx = { 1, 2, 3, 5, 50, -5 };
             double[] dy = { 10, 9, 8, 12, -10, 25 };
 
-            Series.AddSerie(new Serie("1", dataX, dataY));
-            Series.AddSerie(new Serie("2", dx, dy));
+            Series.AddSerie(new Serie("1", dataX.ToList(), dataY.ToList()));
+            Series.AddSerie(new Serie("2", dx.ToList(), dy.ToList()));
 
             PlotForm();
 
@@ -24,23 +25,19 @@ namespace PlotThoseLines
             ((ListBox)this.checkedListBox1).DisplayMember = "Name";
             ((ListBox)this.checkedListBox1).ValueMember = "IsDisplayed";
 
-            foreach (var s in checkedListBox1.Items)
-            {
-                Trace.WriteLine(s);
-            }
-
             //Coche les élèments par défaut https://stackoverflow.com/questions/7485631/winforms-how-to-bind-the-checkbox-item-of-a-checkedlistbox-with-databinding
             for (int i = 0; i < checkedListBox1.Items.Count; i++)
             {
                 Serie obj = (Serie)checkedListBox1.Items[i];
                 checkedListBox1.SetItemChecked(i, obj.IsDisplayed);
-            }
+            }*/
         }
 
         private void PlotForm()
         {
             Series.GetSeries().ForEach(s => formsPlot1.Plot.Add.Scatter(s.XaxisValue, s.YaxisValue));
             formsPlot1.Refresh();
+            formsPlot1.Plot.Axes.AutoScale();
         }
 
         private void button1_Click(object sender, EventArgs e)
@@ -53,6 +50,11 @@ namespace PlotThoseLines
         {
             JunctionForm junctionForm = new JunctionForm();
             junctionForm.Show();
+        }
+
+        private void button4_Click(object sender, EventArgs e)
+        {
+            PlotForm();
         }
     }
 }

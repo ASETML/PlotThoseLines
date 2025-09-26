@@ -33,6 +33,7 @@
             button2 = new Button();
             button3 = new Button();
             checkedListBox1 = new CheckedListBox();
+            button4 = new Button();
             SuspendLayout();
             // 
             // formsPlot1
@@ -51,7 +52,7 @@
             button1.TabIndex = 1;
             button1.Text = "Importer / Restaurer";
             button1.UseVisualStyleBackColor = true;
-            button1.Click += this.button1_Click;
+            button1.Click += button1_Click;
             // 
             // button2
             // 
@@ -61,7 +62,7 @@
             button2.TabIndex = 2;
             button2.Text = "Joindre";
             button2.UseVisualStyleBackColor = true;
-            button2.Click += this.button2_Click;
+            button2.Click += button2_Click;
             // 
             // button3
             // 
@@ -81,11 +82,24 @@
             checkedListBox1.Size = new Size(131, 364);
             checkedListBox1.TabIndex = 4;
             // 
+            // button4
+            // 
+            button4.BackColor = Color.OrangeRed;
+            button4.ForeColor = SystemColors.ButtonFace;
+            button4.Location = new Point(53, 192);
+            button4.Name = "button4";
+            button4.Size = new Size(75, 73);
+            button4.TabIndex = 5;
+            button4.Text = "Temporary button that reload the plot";
+            button4.UseVisualStyleBackColor = false;
+            button4.Click += button4_Click;
+            // 
             // HomeForm
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(800, 450);
+            Controls.Add(button4);
             Controls.Add(checkedListBox1);
             Controls.Add(button3);
             Controls.Add(button2);
@@ -103,5 +117,6 @@
         private Button button2;
         private Button button3;
         private CheckedListBox checkedListBox1;
+        private Button button4;
     }
 }

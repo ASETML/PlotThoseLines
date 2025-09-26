@@ -31,23 +31,34 @@ namespace PlotThoseLines
             DataSet content = reader.AsDataSet();
             DataTable table = content.Tables[0];
 
+            //DataRow et DataColumn ne supportes pas le .ForEach
             // On all tables' rows
+            List<Double> XaxisValue = table.Rows[0].ItemArray.ToList().Skip(1).Select(x => double.Parse(x.ToString())).ToList();
             foreach (DataRow row in table.Rows)
             {
-                Serie s = new Serie(row[0].ToString(), new double[] {}, new double[] { });
-                Trace.WriteLine(s.ToString());  
+                Serie s = new Serie(row[0].ToString(), XaxisValue, new List<double>());
                 // On all tables' columns
                 foreach (DataColumn col in table.Columns)
                 {
                     if (col.Ordinal != 0)
                     {
-                        s.XaxisValue[s.XaxisValue.Length] = double.Parse(row[col].ToString());
-                        var field1 = row[col].ToString();
-                        Trace.Write(field1 + " ");
+                        
+                        var cell = row[col].ToString();
+                        if (cell != "")
+                        {
+                            if (cell != "no data")
+                            {
+                                s.YaxisValue.Add(double.Parse(cell));
+                            }
+                            else
+                            {
+                                s.YaxisValue.Add(0);
+                            }
+                        }
                     }
                     
                 }
-                Trace.Write("\n");
+                Series.AddSerie(s);
             }
 
             reader.Close();
