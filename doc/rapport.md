@@ -2,6 +2,8 @@
 ## Introduction
 ### Objectif pédagogique
 ### Objectif produit
+#### Schéma de l'environement
+!["Schéma de de l'environement"](./img/schema.png)
 #### Maquettes
 - La page d'accueil: 
 !["Page d'accueil"](./img/maquette-accueil.png)
