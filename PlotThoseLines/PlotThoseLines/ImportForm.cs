@@ -15,6 +15,7 @@ namespace PlotThoseLines
 {
     public partial class ImportForm : Form
     {
+        private string _filename;
         public ImportForm()
         {
             InitializeComponent();
@@ -22,9 +23,8 @@ namespace PlotThoseLines
 
         private void ImportFile()
         {
-            string fileName = "imf-dm-export-20250829.xls";
 
-            FileStream stream = File.Open(fileName, FileMode.Open, FileAccess.Read);
+            FileStream stream = File.Open(this._filename, FileMode.Open, FileAccess.Read);
 
             IExcelDataReader reader = ExcelReaderFactory.CreateReader(stream);
 
@@ -42,7 +42,7 @@ namespace PlotThoseLines
                 {
                     if (col.Ordinal != 0)
                     {
-                        
+
                         var cell = row[col].ToString();
                         if (cell != "")
                         {
@@ -56,7 +56,7 @@ namespace PlotThoseLines
                             }
                         }
                     }
-                    
+
                 }
                 Series.AddSerie(s);
             }
@@ -73,6 +73,25 @@ namespace PlotThoseLines
         private void button1_Click(object sender, EventArgs e)
         {
             ImportFile();
+        }
+
+        private void button4_Click(object sender, EventArgs e)
+        {
+            OpenFileDialog openFileDialog = new OpenFileDialog();
+
+
+            openFileDialog.InitialDirectory = "c:\\";
+            openFileDialog.Filter = "Excel files (*.xls)|*.xls|All files (*.*)|*.*";
+            openFileDialog.FilterIndex = 2;
+            openFileDialog.RestoreDirectory = true;
+
+            if (openFileDialog.ShowDialog() == DialogResult.OK)
+            {
+                //Get the path of specified file
+                this._filename = openFileDialog.FileName;
+            }
+
+            this.label3.Text = String.IsNullOrEmpty(this._filename) ? "Choisir un fichier": this._filename;
         }
     }
 }
