@@ -34,8 +34,8 @@
             button2 = new Button();
             button3 = new Button();
             label3 = new Label();
-            button4 = new Button();
             errorLabel = new Label();
+            button4 = new Button();
             SuspendLayout();
             // 
             // label1
@@ -88,21 +88,12 @@
             // label3
             // 
             label3.AutoSize = true;
-            label3.Location = new Point(46, 55);
+            label3.Location = new Point(51, 55);
             label3.Name = "label3";
             label3.Size = new Size(97, 15);
             label3.TabIndex = 5;
             label3.Text = "Choisir un fichier";
-            // 
-            // button4
-            // 
-            button4.Location = new Point(12, 51);
-            button4.Name = "button4";
-            button4.Size = new Size(28, 23);
-            button4.TabIndex = 6;
-            button4.Text = "button4";
-            button4.UseVisualStyleBackColor = true;
-            button4.Click += button4_Click;
+            label3.Click += button4_Click;
             // 
             // errorLabel
             // 
@@ -112,13 +103,23 @@
             errorLabel.Size = new Size(0, 15);
             errorLabel.TabIndex = 7;
             // 
+            // button4
+            // 
+            button4.BackgroundImage = Properties.Resources.folder_solid_full_small;
+            button4.Location = new Point(18, 51);
+            button4.Name = "button4";
+            button4.Size = new Size(27, 23);
+            button4.TabIndex = 8;
+            button4.UseVisualStyleBackColor = true;
+            button4.Click += button4_Click;
+            // 
             // ImportForm
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(800, 450);
-            Controls.Add(errorLabel);
             Controls.Add(button4);
+            Controls.Add(errorLabel);
             Controls.Add(label3);
             Controls.Add(button3);
             Controls.Add(button2);
@@ -139,7 +140,7 @@
         private Button button2;
         private Button button3;
         private Label label3;
-        private Button button4;
         private Label errorLabel;
+        private Button button4;
     }
 }

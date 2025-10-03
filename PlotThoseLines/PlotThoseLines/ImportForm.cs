@@ -88,7 +88,7 @@ namespace PlotThoseLines
             }
             else
             {
-                this.errorLabel.Text = "Erreur lors de l'import du fichier";
+                this.errorLabel.Text = "Erreur lors de l'import du fichier: mauvais format de fichier";
             }
         }
 
