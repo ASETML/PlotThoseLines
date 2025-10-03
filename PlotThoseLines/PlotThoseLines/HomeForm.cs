@@ -1,4 +1,6 @@
+using ScottPlot;
 using ScottPlot.AxisPanels;
+using ScottPlot.Plottables;
 using System.Diagnostics;
 using System.Runtime.CompilerServices;
 
@@ -6,10 +8,43 @@ namespace PlotThoseLines
 {
     partial class HomeForm : Form
     {
+        //Find closest point to mouse
+        //ScottPlot.Plottables.Scatter MyScatter;
         public HomeForm()
         {
             InitializeComponent();
             
+            /*ScottPlot.Plottables.Crosshair MyCrosshair = formsPlot1.Plot.Add.Crosshair(0, 0);
+            MyCrosshair.IsVisible = false;
+            MyCrosshair.MarkerShape = MarkerShape.OpenCircle;
+            MyCrosshair.MarkerSize = 15;
+
+            formsPlot1.MouseMove += (s, e) =>
+            {
+                Pixel mousePixel = new(e.Location.X, e.Location.Y);
+                Coordinates mouseLocation = formsPlot1.Plot.GetCoordinates(mousePixel);
+                if (formsPlot1.Plot.PlottableList.Count !> 0)
+                {
+                    DataPoint nearest = MyScatter.Data.GetNearest(mouseLocation, formsPlot1.Plot.LastRender);
+                    // place the crosshair over the highlighted point
+                    if (nearest.IsReal)
+                    {
+                        MyCrosshair.IsVisible = true;
+                        MyCrosshair.Position = nearest.Coordinates;
+                        formsPlot1.Refresh();
+                        Text = $"Selected Index={nearest.Index}, X={nearest.X:0.##}, Y={nearest.Y:0.##}";
+                    }
+
+                    // hide the crosshair when no point is selected
+                    if (!nearest.IsReal && MyCrosshair.IsVisible)
+                    {
+                        MyCrosshair.IsVisible = false;
+                        formsPlot1.Refresh();
+                        Text = $"No point selected";
+                    }
+                }
+            };*/
+
             /*double[] dataX = { 1, 2, 3, 4, 5 };
             double[] dataY = { 1, 4, 9, 16, 25 };
 
