@@ -60,7 +60,7 @@ namespace PlotThoseLines
                         }
 
                     }
-                    Series.AddSerie(s);
+                    Series.series.Add(s);
                 }
 
                 reader.Close();

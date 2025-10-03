@@ -9,6 +9,9 @@ namespace PlotThoseLines
 {
     class Serie
     {
+        public int Id { get; set; }
+
+        //public static Id;
         public string Name { get; set; }
         public List<double> XaxisValue { get; set; }
         public List<double> YaxisValue { get; set; }

@@ -12,6 +12,7 @@ namespace PlotThoseLines
         //ScottPlot.Plottables.Scatter MyScatter;
         public HomeForm()
         {
+            Series.series = new List<Serie>();
             InitializeComponent();
             
             /*ScottPlot.Plottables.Crosshair MyCrosshair = formsPlot1.Plot.Add.Crosshair(0, 0);
@@ -45,28 +46,31 @@ namespace PlotThoseLines
                 }
             };*/
 
-            /*double[] dataX = { 1, 2, 3, 4, 5 };
+            double[] dataX = { 1, 2, 3, 4, 5 };
             double[] dataY = { 1, 4, 9, 16, 25 };
 
             double[] dx = { 1, 2, 3, 5, 50, -5 };
             double[] dy = { 10, 9, 8, 12, -10, 25 };
 
-            Series.AddSerie(new Serie("1", dataX.ToList(), dataY.ToList()));
-            Series.AddSerie(new Serie("2", dx.ToList(), dy.ToList()));
+            //Series.series.Add(new Serie("1", dataX.ToList(), dataY.ToList()));
+            //Series.series.Add(new Serie("2", dx.ToList(), dy.ToList()));
 
             PlotForm();
 
             //Binding à la checkbox seulement après ajout des données
-            ((ListBox)this.checkedListBox1).DataSource = Series.GetSeries();
+            //((ListBox)this.checkedListBox1).DataSource = Series.series;
             ((ListBox)this.checkedListBox1).DisplayMember = "Name";
             ((ListBox)this.checkedListBox1).ValueMember = "IsDisplayed";
+            checkedListBox1.Items.Add(new Serie("1", dataX.ToList(), dataY.ToList()));
+            checkedListBox1.Items.Add(new Serie("2", dx.ToList(), dy.ToList()));
+            var x = checkedListBox1.Items;
 
             //Coche les élèments par défaut https://stackoverflow.com/questions/7485631/winforms-how-to-bind-the-checkbox-item-of-a-checkedlistbox-with-databinding
             for (int i = 0; i < checkedListBox1.Items.Count; i++)
             {
                 Serie obj = (Serie)checkedListBox1.Items[i];
                 checkedListBox1.SetItemChecked(i, obj.IsDisplayed);
-            }*/
+            }
         }
 
         /// <summary>
@@ -76,12 +80,13 @@ namespace PlotThoseLines
         /// <param name="e"></param>
         private void GotFocus(object sender, EventArgs e)
         {
+            //TODO: stocker la dernière liste importée: si elle est différente, recharger le plot, sinon rien
             PlotForm();
         }
 
         private void PlotForm()
         {
-            Series.GetSeries().ForEach(s => formsPlot1.Plot.Add.Scatter(s.XaxisValue, s.YaxisValue));
+            Series.series.Where(s => s.IsDisplayed && s.YaxisValue.Count > 0).ToList().ForEach(s => formsPlot1.Plot.Add.Scatter(s.XaxisValue, s.YaxisValue));
             formsPlot1.Plot.Axes.AutoScale();
             formsPlot1.Refresh();
         }
