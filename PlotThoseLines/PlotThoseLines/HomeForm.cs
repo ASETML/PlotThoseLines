@@ -1,5 +1,6 @@
 using ScottPlot.AxisPanels;
 using System.Diagnostics;
+using System.Runtime.CompilerServices;
 
 namespace PlotThoseLines
 {
@@ -8,7 +9,7 @@ namespace PlotThoseLines
         public HomeForm()
         {
             InitializeComponent();
-
+            
             /*double[] dataX = { 1, 2, 3, 4, 5 };
             double[] dataY = { 1, 4, 9, 16, 25 };
 
@@ -33,6 +34,16 @@ namespace PlotThoseLines
             }*/
         }
 
+        /// <summary>
+        /// Reload the form when it get Focus -> for example, when the ImportForm is Closed
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void GotFocus(object sender, EventArgs e)
+        {
+            PlotForm();
+        }
+
         private void PlotForm()
         {
             Series.GetSeries().ForEach(s => formsPlot1.Plot.Add.Scatter(s.XaxisValue, s.YaxisValue));
@@ -50,11 +61,6 @@ namespace PlotThoseLines
         {
             JunctionForm junctionForm = new JunctionForm();
             junctionForm.Show();
-        }
-
-        private void button4_Click(object sender, EventArgs e)
-        {
-            PlotForm();
         }
     }
 }

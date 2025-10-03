@@ -10,6 +10,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using ExcelDataReader;
 using System.Data;
+using System.Reflection.Metadata.Ecma335;
 
 namespace PlotThoseLines
 {
@@ -21,48 +22,56 @@ namespace PlotThoseLines
             InitializeComponent();
         }
 
-        private void ImportFile()
+        private bool ImportFile()
         {
-
-            FileStream stream = File.Open(this._filename, FileMode.Open, FileAccess.Read);
-
-            IExcelDataReader reader = ExcelReaderFactory.CreateReader(stream);
-
-            DataSet content = reader.AsDataSet();
-            DataTable table = content.Tables[0];
-
-            //DataRow et DataColumn ne supportes pas le .ForEach
-            // On all tables' rows
-            List<Double> XaxisValue = table.Rows[0].ItemArray.ToList().Skip(1).Select(x => double.Parse(x.ToString())).ToList();
-            foreach (DataRow row in table.Rows)
+            try
             {
-                Serie s = new Serie(row[0].ToString(), XaxisValue, new List<double>());
-                // On all tables' columns
-                foreach (DataColumn col in table.Columns)
-                {
-                    if (col.Ordinal != 0)
-                    {
+                FileStream stream = File.Open(this._filename, FileMode.Open, FileAccess.Read);
 
-                        var cell = row[col].ToString();
-                        if (cell != "")
+                IExcelDataReader reader = ExcelReaderFactory.CreateReader(stream);
+
+                DataSet content = reader.AsDataSet();
+                DataTable table = content.Tables[0];
+
+                //DataRow et DataColumn ne supportes pas le .ForEach
+                // On all tables' rows
+                List<Double> XaxisValue = table.Rows[0].ItemArray.ToList().Skip(1).Select(x => double.Parse(x.ToString())).ToList();
+                foreach (DataRow row in table.Rows)
+                {
+                    Serie s = new Serie(row[0].ToString(), XaxisValue, new List<double>());
+                    // On all tables' columns
+                    foreach (DataColumn col in table.Columns)
+                    {
+                        if (col.Ordinal != 0)
                         {
-                            if (cell != "no data")
+
+                            var cell = row[col].ToString();
+                            if (cell != "")
                             {
-                                s.YaxisValue.Add(double.Parse(cell));
-                            }
-                            else
-                            {
-                                s.YaxisValue.Add(0);
+                                if (cell != "no data")
+                                {
+                                    s.YaxisValue.Add(double.Parse(cell));
+                                }
+                                else
+                                {
+                                    s.YaxisValue.Add(0);
+                                }
                             }
                         }
+
                     }
-
+                    Series.AddSerie(s);
                 }
-                Series.AddSerie(s);
-            }
 
-            reader.Close();
-            stream.Close();
+                reader.Close();
+                stream.Close();
+                return true;
+            }
+            catch(Exception e)
+            {
+                Trace.WriteLine(e);
+                return false;
+            }
         }
 
         private void button3_Click(object sender, EventArgs e)
@@ -72,7 +81,15 @@ namespace PlotThoseLines
 
         private void button1_Click(object sender, EventArgs e)
         {
-            ImportFile();
+            bool success = ImportFile();
+            if (success)
+            {
+                this.Close();
+            }
+            else
+            {
+                this.errorLabel.Text = "Erreur lors de l'import du fichier";
+            }
         }
 
         private void button4_Click(object sender, EventArgs e)
@@ -81,7 +98,7 @@ namespace PlotThoseLines
 
 
             openFileDialog.InitialDirectory = "c:\\";
-            openFileDialog.Filter = "Excel files (*.xls)|*.xls|All files (*.*)|*.*";
+            openFileDialog.Filter = "All files (*.*)|*.*|Excel files (*.xls)|*.xls";
             openFileDialog.FilterIndex = 2;
             openFileDialog.RestoreDirectory = true;
 

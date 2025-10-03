@@ -35,6 +35,7 @@
             button3 = new Button();
             label3 = new Label();
             button4 = new Button();
+            errorLabel = new Label();
             SuspendLayout();
             // 
             // label1
@@ -103,11 +104,20 @@
             button4.UseVisualStyleBackColor = true;
             button4.Click += button4_Click;
             // 
+            // errorLabel
+            // 
+            errorLabel.AutoSize = true;
+            errorLabel.Location = new Point(322, 263);
+            errorLabel.Name = "errorLabel";
+            errorLabel.Size = new Size(0, 15);
+            errorLabel.TabIndex = 7;
+            // 
             // ImportForm
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(800, 450);
+            Controls.Add(errorLabel);
             Controls.Add(button4);
             Controls.Add(label3);
             Controls.Add(button3);
@@ -130,5 +140,6 @@
         private Button button3;
         private Label label3;
         private Button button4;
+        private Label errorLabel;
     }
 }
