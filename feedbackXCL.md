@@ -14,3 +14,9 @@
 - Story Afficher des séries temporelles = OK
 - Juste le bouton de sélection de fichier à mieux présenter.
 - Prévoyez un fichier "bad data" pour faciliter le test de la gestion des cas d'erreur
+
+## 9.10
+
+- Excellent les tags "User Story" dans votre projet
+- jdt nickel
+- Le rapport est en souffrance par contre
