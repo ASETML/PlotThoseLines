@@ -29,45 +29,57 @@ namespace PlotThoseLines
                 FileStream stream = File.Open(this._filename, FileMode.Open, FileAccess.Read);
 
                 IExcelDataReader reader = ExcelReaderFactory.CreateReader(stream);
-
-                DataSet content = reader.AsDataSet();
-                DataTable table = content.Tables[0];
-
-                //DataRow et DataColumn ne supportes pas le .ForEach
-                // On all tables' rows
-                List<Double> XaxisValue = table.Rows[0].ItemArray.ToList().Skip(1).Select(x => double.Parse(x.ToString())).ToList();
-                foreach (DataRow row in table.Rows)
+                try
                 {
-                    Serie s = new Serie(row[0].ToString(), XaxisValue, new List<double>());
-                    // On all tables' columns
-                    foreach (DataColumn col in table.Columns)
-                    {
-                        if (col.Ordinal != 0)
-                        {
+                    DataSet content = reader.AsDataSet();
+                    DataTable table = content.Tables[0];
 
-                            var cell = row[col].ToString();
-                            if (cell != "")
+                    List<Serie> importedSeries = new List<Serie>();
+
+                    //DataRow et DataColumn ne supportes pas le .ForEach
+                    // On all tables' rows
+                    List<Double> XaxisValue = table.Rows[0].ItemArray.ToList().Skip(1).Select(x => double.Parse(x.ToString())).ToList();
+                    foreach (DataRow row in table.Rows)
+                    {
+                        Serie s = new Serie(row[0].ToString(), XaxisValue, new List<double>());
+                        // On all tables' columns
+                        foreach (DataColumn col in table.Columns)
+                        {
+                            if (col.Ordinal != 0)
                             {
-                                if (cell != "no data")
+
+                                var cell = row[col].ToString();
+                                if (cell != "")
                                 {
-                                    s.YaxisValue.Add(double.Parse(cell));
-                                }
-                                else
-                                {
-                                    s.YaxisValue.Add(0);
+                                    if (cell != "no data")
+                                    {
+                                        s.YaxisValue.Add(double.Parse(cell));
+                                    }
+                                    else
+                                    {
+                                        s.YaxisValue.Add(0);
+                                    }
                                 }
                             }
+
                         }
-
+                        importedSeries.Add(s);
                     }
-                    Series.series.Add(s);
-                }
 
-                reader.Close();
-                stream.Close();
-                return true;
+                    Series.series.AddRange(importedSeries.Skip(2).SkipLast(2).ToList());
+                    reader.Close();
+                    stream.Close();
+                    return true;
+                }
+                catch (Exception e)
+                {
+                    Trace.WriteLine(e);
+                    reader.Close();
+                    stream.Close();
+                    return false;
+                }
             }
-            catch(Exception e)
+            catch (Exception e)
             {
                 Trace.WriteLine(e);
                 return false;
@@ -108,7 +120,7 @@ namespace PlotThoseLines
                 this._filename = openFileDialog.FileName;
             }
 
-            this.label3.Text = String.IsNullOrEmpty(this._filename) ? "Choisir un fichier": this._filename;
+            this.label3.Text = String.IsNullOrEmpty(this._filename) ? "Choisir un fichier" : this._filename;
         }
     }
 }
