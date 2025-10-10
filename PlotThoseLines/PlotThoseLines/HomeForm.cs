@@ -13,7 +13,10 @@ namespace PlotThoseLines
         public HomeForm()
         {
             Series.series = new List<Serie>();
+            Series.series.Add(new Serie("s1", new List<double> { 1, 2, 3, 4 }, new List<double> { 4, 5, 6, 7 }));
             InitializeComponent();
+            
+            changeColorButton1.BindSerie(Series.series.First());
             
             /*ScottPlot.Plottables.Crosshair MyCrosshair = formsPlot1.Plot.Add.Crosshair(0, 0);
             MyCrosshair.IsVisible = false;
@@ -86,7 +89,7 @@ namespace PlotThoseLines
 
         private void PlotForm()
         {
-            Series.series.Where(s => s.IsDisplayed && s.YaxisValue.Count > 0).ToList().ForEach(s => formsPlot1.Plot.Add.Scatter(s.XaxisValue, s.YaxisValue));
+            Series.series.Where(s => s.IsDisplayed && s.YaxisValue.Count > 0).ToList().ForEach(s => formsPlot1.Plot.Add.Scatter(s.XaxisValue, s.YaxisValue, s.Color));
             formsPlot1.Plot.Axes.AutoScale();
             formsPlot1.Refresh();
         }

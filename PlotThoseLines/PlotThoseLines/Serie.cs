@@ -11,22 +11,30 @@ namespace PlotThoseLines
     {
         public int Id { get; set; }
 
-        //public static Id;
+        private static int _idGenerator = 0;
         public string Name { get; set; }
         public List<double> XaxisValue { get; set; }
         public List<double> YaxisValue { get; set; }
         public bool IsDisplayed { get; set; }
+        public ScottPlot.Color Color { get; set; }
         
         public Serie(string name, List<double> x, List<double> y) {
+            this.Id = _idGenerator++;
             this.Name = name;
             this.XaxisValue = x;
             this.YaxisValue = y;
             this.IsDisplayed = true;
+            this.Color = ScottPlot.Color.RandomHue();
+        }
+
+        public void ChangeColor(Color color)
+        {
+            this.Color = ScottPlot.Color.FromColor(color);
         }
 
         public override string ToString()
         {
-            return $"Série {Name} avec les valeurs {XaxisValue} en abscisse et {YaxisValue} en ordonnée. Afficher: {IsDisplayed}";
+            return $"Série {Id}: {Name} avec les valeurs {XaxisValue} en abscisse et {YaxisValue} en ordonnée. Afficher: {IsDisplayed}";
         }
     }
 }

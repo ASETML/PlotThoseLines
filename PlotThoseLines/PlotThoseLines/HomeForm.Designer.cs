@@ -33,6 +33,7 @@
             button2 = new Button();
             button3 = new Button();
             checkedListBox1 = new CheckedListBox();
+            changeColorButton1 = new ChangeColorButton();
             SuspendLayout();
             // 
             // formsPlot1
@@ -81,11 +82,21 @@
             checkedListBox1.Size = new Size(131, 364);
             checkedListBox1.TabIndex = 4;
             // 
+            // changeColorButton1
+            // 
+            changeColorButton1.Location = new Point(143, 430);
+            changeColorButton1.Name = "changeColorButton1";
+            changeColorButton1.Size = new Size(131, 27);
+            changeColorButton1.TabIndex = 5;
+            changeColorButton1.Text = "changeColorButton1";
+            changeColorButton1.UseVisualStyleBackColor = true;
+            // 
             // HomeForm
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(800, 450);
+            Controls.Add(changeColorButton1);
             Controls.Add(checkedListBox1);
             Controls.Add(button3);
             Controls.Add(button2);
@@ -104,5 +115,6 @@
         private Button button2;
         private Button button3;
         private CheckedListBox checkedListBox1;
+        private ChangeColorButton changeColorButton1;
     }
 }
