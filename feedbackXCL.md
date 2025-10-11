@@ -20,3 +20,14 @@
 - Excellent les tags "User Story" dans votre projet
 - jdt nickel
 - Le rapport est en souffrance par contre
+
+## 10.10 (80%)
+
+- Rythme (avancement du code):
+- Qualité (normes, commentaires):
+- Connaissances professionnelles (LinQ):
+- Processus de travail (jdt, git, git project, release):
+- Expression (user stories, rapport):
+- Ecologie (.gitignore):
+- Attitude groupe:
+- Attitude personnelle:
