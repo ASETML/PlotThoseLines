@@ -1,6 +1,7 @@
 using ScottPlot;
 using ScottPlot.AxisPanels;
 using ScottPlot.Plottables;
+using System.Data.SQLite;
 using System.Diagnostics;
 using System.Runtime.CompilerServices;
 
@@ -12,8 +13,10 @@ namespace PlotThoseLines
         //ScottPlot.Plottables.Scatter MyScatter;
         public HomeForm()
         {
+
             Series.series = new List<Serie>();
             Series.series.Add(new Serie("s1", new List<double> { 1, 2, 3, 4 }, new List<double> { 4, 5, 6, 7 }));
+
             InitializeComponent();
             
             changeColorButton1.BindSerie(Series.series.First());

@@ -11,6 +11,7 @@ using System.Windows.Forms;
 using ExcelDataReader;
 using System.Data;
 using System.Reflection.Metadata.Ecma335;
+using System.Data.SQLite;
 
 namespace PlotThoseLines
 {
@@ -24,6 +25,45 @@ namespace PlotThoseLines
 
         private bool ImportFile()
         {
+            string connectionString = "Data Source=ptl.db;Version=3;";
+            SQLiteConnection connection = new SQLiteConnection(connectionString);
+
+            try
+            {
+                connection.Open();
+                Console.WriteLine("Connected to SQLite!");
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error: {ex.Message}");
+            }
+            finally
+            {
+                connection.Close();
+            }
+            string createSeriesTableSql = "CREATE TABLE IF NOT EXISTS series (Id INTEGER PRIMARY KEY, Name TEXT, IsDisplayed BOOLEAN, Color TEXT)";
+            string createPointsTableSql = "CREATE TABLE IF NOT EXISTS points (Id INTEGER PRIMARY KEY, X FLOAT, Y FLOAT, Serie INTEGER, FOREIGN KEY(Serie) REFERENCES series(Id))";
+
+            SQLiteCommand createSeriesTableCommand = new SQLiteCommand(createSeriesTableSql, connection);
+            SQLiteCommand createPointsTableCommand = new SQLiteCommand(createPointsTableSql, connection);
+            
+            try
+            {
+                connection.Open();
+                createSeriesTableCommand.ExecuteNonQuery();
+                createPointsTableCommand.ExecuteNonQuery();
+                //insertCommand.ExecuteNonQuery();
+                Console.WriteLine("Table created and data inserted!");
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error: {ex.Message}");
+            }
+            finally
+            {
+                connection.Close();
+            }
+
             try
             {
                 FileStream stream = File.Open(this._filename, FileMode.Open, FileAccess.Read);
@@ -67,6 +107,23 @@ namespace PlotThoseLines
                     }
 
                     Series.series.AddRange(importedSeries.Skip(2).SkipLast(2).ToList());
+
+                    Action<Serie> SaveSerie = s =>
+                    {
+                        string insertSql = "INSERT INTO series (Id, Name, IsDisplayed, Color) VALUES (@id, @name, @display, @color)";
+                        SQLiteCommand insertCommand = new SQLiteCommand(insertSql, connection);
+                        insertCommand.Parameters.AddWithValue("@id", s.Id);
+                        insertCommand.Parameters.AddWithValue("@name", s.Name);
+                        insertCommand.Parameters.AddWithValue("@display", s.IsDisplayed);
+                        insertCommand.Parameters.AddWithValue("@color", s.Color.ToStringRGBA());
+                        insertCommand.ExecuteNonQuery();
+                    };
+
+                    connection.Open();
+                    Series.series.ForEach(s => SaveSerie(s));
+                    connection.Close();
+                    File.Copy("ptl.db", "ptl2.db");
+
                     reader.Close();
                     stream.Close();
                     return true;
@@ -85,6 +142,7 @@ namespace PlotThoseLines
                 return false;
             }
         }
+
 
         private void button3_Click(object sender, EventArgs e)
         {
