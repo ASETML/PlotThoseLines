@@ -25,6 +25,11 @@ namespace PlotThoseLines
 
         private bool ImportFile()
         {
+            Directory.CreateDirectory("snapshots");
+            DateTime now = DateTime.Now;
+            string x = $"snapshots\\ptl-{now.Year}-{now.Month}-{now.Day}-{now.Hour}-{now.Minute}-{now.Second}.db";
+            Trace.WriteLine(File.Exists("ptl.db") + x);
+            File.Copy("ptl.db", x);
             string connectionString = "Data Source=ptl.db;Version=3;";
             SQLiteConnection connection = new SQLiteConnection(connectionString);
 
@@ -122,7 +127,6 @@ namespace PlotThoseLines
                     connection.Open();
                     Series.series.ForEach(s => SaveSerie(s));
                     connection.Close();
-                    File.Copy("ptl.db", "ptl2.db");
 
                     reader.Close();
                     stream.Close();
