@@ -25,13 +25,16 @@ namespace PlotThoseLines
 
         private bool ImportFile()
         {
+            if (!File.Exists("ptl.db"))
+            {
+                File.Create("ptl.db").Close();
+            }
+            string connectionString = "Data Source=ptl.db;Version=3;";
+            SQLiteConnection connection = new SQLiteConnection(connectionString);
             Directory.CreateDirectory("snapshots");
             DateTime now = DateTime.Now;
             string x = $"snapshots\\ptl-{now.Year}-{now.Month}-{now.Day}-{now.Hour}-{now.Minute}-{now.Second}.db";
-            Trace.WriteLine(File.Exists("ptl.db") + x);
             File.Copy("ptl.db", x);
-            string connectionString = "Data Source=ptl.db;Version=3;";
-            SQLiteConnection connection = new SQLiteConnection(connectionString);
 
             try
             {
@@ -47,11 +50,11 @@ namespace PlotThoseLines
                 connection.Close();
             }
             string createSeriesTableSql = "CREATE TABLE IF NOT EXISTS series (Id INTEGER PRIMARY KEY, Name TEXT, IsDisplayed BOOLEAN, Color TEXT)";
-            string createPointsTableSql = "CREATE TABLE IF NOT EXISTS points (Id INTEGER PRIMARY KEY, X FLOAT, Y FLOAT, Serie INTEGER, FOREIGN KEY(Serie) REFERENCES series(Id))";
+            string createPointsTableSql = "CREATE TABLE IF NOT EXISTS points (X FLOAT, Y FLOAT, Serie INTEGER, FOREIGN KEY(Serie) REFERENCES series(Id))";
 
             SQLiteCommand createSeriesTableCommand = new SQLiteCommand(createSeriesTableSql, connection);
             SQLiteCommand createPointsTableCommand = new SQLiteCommand(createPointsTableSql, connection);
-            
+
             try
             {
                 connection.Open();
@@ -113,15 +116,28 @@ namespace PlotThoseLines
 
                     Series.series.AddRange(importedSeries.Skip(2).SkipLast(2).ToList());
 
+                    Action<(double, double), int> SavePoint = (t, i) =>
+                    {
+                        string insertPointSql = "INSERT INTO points (X, Y, Serie) VALUES (@x, @y, @serie)";
+                        SQLiteCommand insertPointCommand = new SQLiteCommand(insertPointSql, connection);
+                        insertPointCommand.Parameters.AddWithValue("@x", t.Item1);
+                        insertPointCommand.Parameters.AddWithValue("@y", t.Item2);
+                        insertPointCommand.Parameters.AddWithValue("@serie", i);
+                        insertPointCommand.ExecuteNonQuery();
+                    };
+
                     Action<Serie> SaveSerie = s =>
                     {
-                        string insertSql = "INSERT INTO series (Id, Name, IsDisplayed, Color) VALUES (@id, @name, @display, @color)";
-                        SQLiteCommand insertCommand = new SQLiteCommand(insertSql, connection);
-                        insertCommand.Parameters.AddWithValue("@id", s.Id);
-                        insertCommand.Parameters.AddWithValue("@name", s.Name);
-                        insertCommand.Parameters.AddWithValue("@display", s.IsDisplayed);
-                        insertCommand.Parameters.AddWithValue("@color", s.Color.ToStringRGBA());
-                        insertCommand.ExecuteNonQuery();
+                        string insertSerieSql = "INSERT INTO series (Id, Name, IsDisplayed, Color) VALUES (@id, @name, @display, @color)";
+                        SQLiteCommand insertSerieCommand = new SQLiteCommand(insertSerieSql, connection);
+                        insertSerieCommand.Parameters.AddWithValue("@id", s.Id);
+                        insertSerieCommand.Parameters.AddWithValue("@name", s.Name);
+                        insertSerieCommand.Parameters.AddWithValue("@display", s.IsDisplayed);
+                        insertSerieCommand.Parameters.AddWithValue("@color", s.Color.ToStringRGBA());
+                        insertSerieCommand.ExecuteNonQuery();
+
+                        List<(double, double)> values = s.XaxisValue.Zip(s.YaxisValue).ToList();
+                        values.ForEach(x => SavePoint(x, s.Id));
                     };
 
                     connection.Open();
@@ -147,7 +163,6 @@ namespace PlotThoseLines
             }
         }
 
-
         private void button3_Click(object sender, EventArgs e)
         {
             this.Close();
@@ -170,11 +185,9 @@ namespace PlotThoseLines
         {
             OpenFileDialog openFileDialog = new OpenFileDialog();
 
-
             openFileDialog.InitialDirectory = "c:\\";
             openFileDialog.Filter = "All files (*.*)|*.*|Excel files (*.xls)|*.xls";
             openFileDialog.FilterIndex = 2;
-            openFileDialog.RestoreDirectory = true;
 
             if (openFileDialog.ShowDialog() == DialogResult.OK)
             {
