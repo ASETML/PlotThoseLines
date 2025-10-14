@@ -13,6 +13,36 @@ namespace PlotThoseLines
         //ScottPlot.Plottables.Scatter MyScatter;
         public HomeForm()
         {
+            //Restore series from savefile
+            string connectionString = "Data Source=ptl.db;Version=3;";
+            SQLiteConnection connection = new SQLiteConnection(connectionString);
+            string sql = "SELECT * FROM series JOIN points ON series.Id = points.Serie";
+            SQLiteCommand command = new SQLiteCommand(sql, connection);
+            connection.Open();
+            SQLiteDataReader reader = command.ExecuteReader();
+
+            List<(int, string, bool, string, double, double)> series = new List<(int, string, bool, string, double, double)>();
+            // Check if rows are returned
+            if (reader.HasRows)
+            {
+                while (reader.Read())
+                {
+                    // Access columns by index or name
+                    int Id = reader.GetInt32(0);
+                    string Name = reader.GetString(1);
+                    bool IsDisplayed = reader.GetBoolean(2);
+                    string Color = reader.GetString(3);
+                    double X = reader.GetDouble(4);
+                    double Y = reader.GetDouble(5);
+                    Trace.WriteLine(Id + " " + Name + " " + IsDisplayed + " " + Color + " " + X + " " + Y); 
+                    series.Add((Id, Name, IsDisplayed, Color, X,  Y));
+                }
+            }
+            else
+            {
+                Console.WriteLine("No rows found.");
+            }
+            connection.Close();
 
             Series.series = new List<Serie>();
             Series.series.Add(new Serie("s1", new List<double> { 1, 2, 3, 4 }, new List<double> { 4, 5, 6, 7 }));
