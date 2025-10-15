@@ -38,42 +38,6 @@ namespace PlotThoseLines
 
             try
             {
-                connection.Open();
-                Console.WriteLine("Connected to SQLite!");
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine($"Error: {ex.Message}");
-            }
-            finally
-            {
-                connection.Close();
-            }
-            string createSeriesTableSql = "CREATE TABLE IF NOT EXISTS series (Id INTEGER PRIMARY KEY, Name TEXT, IsDisplayed BOOLEAN, Color TEXT)";
-            string createPointsTableSql = "CREATE TABLE IF NOT EXISTS points (X FLOAT, Y FLOAT, Serie INTEGER, FOREIGN KEY(Serie) REFERENCES series(Id))";
-
-            SQLiteCommand createSeriesTableCommand = new SQLiteCommand(createSeriesTableSql, connection);
-            SQLiteCommand createPointsTableCommand = new SQLiteCommand(createPointsTableSql, connection);
-
-            try
-            {
-                connection.Open();
-                createSeriesTableCommand.ExecuteNonQuery();
-                createPointsTableCommand.ExecuteNonQuery();
-                //insertCommand.ExecuteNonQuery();
-                Console.WriteLine("Table created and data inserted!");
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine($"Error: {ex.Message}");
-            }
-            finally
-            {
-                connection.Close();
-            }
-
-            try
-            {
                 FileStream stream = File.Open(this._filename, FileMode.Open, FileAccess.Read);
 
                 IExcelDataReader reader = ExcelReaderFactory.CreateReader(stream);
@@ -115,6 +79,7 @@ namespace PlotThoseLines
                     }
 
                     Series.series.AddRange(importedSeries.Skip(2).SkipLast(2).ToList());
+                    Series.series = Series.series.GroupBy(s => s.Name).Select(s => s.Last()).ToList();
 
                     Action<(double, double), int> SavePoint = (t, i) =>
                     {
@@ -139,8 +104,11 @@ namespace PlotThoseLines
                         List<(double, double)> values = s.XaxisValue.Zip(s.YaxisValue).ToList();
                         values.ForEach(x => SavePoint(x, s.Id));
                     };
-
+                    
                     connection.Open();
+                    new SQLiteCommand("DELETE FROM points", connection).ExecuteNonQuery();
+                    new SQLiteCommand("DELETE FROM series", connection).ExecuteNonQuery();
+
                     Series.series.ForEach(s => SaveSerie(s));
                     connection.Close();
 

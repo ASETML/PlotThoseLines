@@ -13,9 +13,34 @@ namespace PlotThoseLines
         //ScottPlot.Plottables.Scatter MyScatter;
         public HomeForm()
         {
+            Series.series = new List<Serie>();
+
             //Restore series from savefile
             string connectionString = "Data Source=ptl.db;Version=3;";
             SQLiteConnection connection = new SQLiteConnection(connectionString);
+
+            string createSeriesTableSql = "CREATE TABLE IF NOT EXISTS series (Id INTEGER PRIMARY KEY, Name TEXT, IsDisplayed BOOLEAN, Color TEXT)";
+            string createPointsTableSql = "CREATE TABLE IF NOT EXISTS points (X FLOAT, Y FLOAT, Serie INTEGER, FOREIGN KEY(Serie) REFERENCES series(Id))";
+
+            SQLiteCommand createSeriesTableCommand = new SQLiteCommand(createSeriesTableSql, connection);
+            SQLiteCommand createPointsTableCommand = new SQLiteCommand(createPointsTableSql, connection);
+
+            try
+            {
+                connection.Open();
+                createSeriesTableCommand.ExecuteNonQuery();
+                createPointsTableCommand.ExecuteNonQuery();
+                //insertCommand.ExecuteNonQuery();
+                Console.WriteLine("Table created and data inserted!");
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error: {ex.Message}");
+            }
+            finally
+            {
+                connection.Close();
+            }
             string sql = "SELECT * FROM series JOIN points ON series.Id = points.Serie";
             SQLiteCommand command = new SQLiteCommand(sql, connection);
             connection.Open();
@@ -34,8 +59,17 @@ namespace PlotThoseLines
                     string Color = reader.GetString(3);
                     double X = reader.GetDouble(4);
                     double Y = reader.GetDouble(5);
-                    Trace.WriteLine(Id + " " + Name + " " + IsDisplayed + " " + Color + " " + X + " " + Y); 
+                    Trace.WriteLine(Id + " " + Name + " " + IsDisplayed + " " + Color + " " + X + " " + Y);
                     series.Add((Id, Name, IsDisplayed, Color, X,  Y));
+                    if (Series.series.Where(s => s.Id == Id).Count() == 0) {
+                        Series.series.Add(new Serie(Id, Name, IsDisplayed, Color));
+                    }
+                    else
+                    {
+                        Series.series.Where(s => s.Id == Id).First().XaxisValue.Add(X);
+                        Series.series.Where(s => s.Id == Id).First().YaxisValue.Add(Y);
+                    }
+                    Series.series.ForEach(s => Trace.WriteLine(s));
                 }
             }
             else
@@ -44,7 +78,7 @@ namespace PlotThoseLines
             }
             connection.Close();
 
-            Series.series = new List<Serie>();
+            
             Series.series.Add(new Serie("s1", new List<double> { 1, 2, 3, 4 }, new List<double> { 4, 5, 6, 7 }));
 
             InitializeComponent();

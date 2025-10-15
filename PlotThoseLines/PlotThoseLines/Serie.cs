@@ -27,6 +27,17 @@ namespace PlotThoseLines
             this.Color = ScottPlot.Color.RandomHue();
         }
 
+        public Serie(int id, string name, bool isDisplayed, string color)
+        {
+            this.Id = id;
+            _idGenerator = id + 1;
+            this.Name = name;
+            this.XaxisValue = new List<double>();
+            this.YaxisValue = new List<double>();
+            this.IsDisplayed = isDisplayed;
+            this.Color = ScottPlot.Color.FromHex(color);
+        }
+
         public void ChangeColor(Color color)
         {
             this.Color = ScottPlot.Color.FromColor(color);
