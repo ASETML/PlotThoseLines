@@ -18,6 +18,7 @@ namespace PlotThoseLines
     public partial class ImportForm : Form
     {
         private string _filename;
+        private string _savefilename;
         public ImportForm()
         {
             InitializeComponent();
@@ -25,12 +26,6 @@ namespace PlotThoseLines
 
         private bool ImportFile()
         {
-            if (!File.Exists("ptl.db"))
-            {
-                File.Create("ptl.db").Close();
-            }
-            string connectionString = "Data Source=ptl.db;Version=3;";
-            SQLiteConnection connection = new SQLiteConnection(connectionString);
             Directory.CreateDirectory("snapshots");
             DateTime now = DateTime.Now;
             string x = $"snapshots\\ptl-{now.Year}-{now.Month}-{now.Day}-{now.Hour}-{now.Minute}-{now.Second}.db";
@@ -79,38 +74,9 @@ namespace PlotThoseLines
                     }
 
                     Series.series.AddRange(importedSeries.Skip(2).SkipLast(2).ToList());
-                    Series.series = Series.series.GroupBy(s => s.Name).Select(s => s.Last()).ToList();
+                    Series.series = Series.series.GroupBy(s => s.Name + s.YaxisValue.Count).Select(s => s.Last()).ToList();
 
-                    Action<(double, double), int> SavePoint = (t, i) =>
-                    {
-                        string insertPointSql = "INSERT INTO points (X, Y, Serie) VALUES (@x, @y, @serie)";
-                        SQLiteCommand insertPointCommand = new SQLiteCommand(insertPointSql, connection);
-                        insertPointCommand.Parameters.AddWithValue("@x", t.Item1);
-                        insertPointCommand.Parameters.AddWithValue("@y", t.Item2);
-                        insertPointCommand.Parameters.AddWithValue("@serie", i);
-                        insertPointCommand.ExecuteNonQuery();
-                    };
-
-                    Action<Serie> SaveSerie = s =>
-                    {
-                        string insertSerieSql = "INSERT INTO series (Id, Name, IsDisplayed, Color) VALUES (@id, @name, @display, @color)";
-                        SQLiteCommand insertSerieCommand = new SQLiteCommand(insertSerieSql, connection);
-                        insertSerieCommand.Parameters.AddWithValue("@id", s.Id);
-                        insertSerieCommand.Parameters.AddWithValue("@name", s.Name);
-                        insertSerieCommand.Parameters.AddWithValue("@display", s.IsDisplayed);
-                        insertSerieCommand.Parameters.AddWithValue("@color", s.Color.ToStringRGBA());
-                        insertSerieCommand.ExecuteNonQuery();
-
-                        List<(double, double)> values = s.XaxisValue.Zip(s.YaxisValue).ToList();
-                        values.ForEach(x => SavePoint(x, s.Id));
-                    };
-                    
-                    connection.Open();
-                    new SQLiteCommand("DELETE FROM points", connection).ExecuteNonQuery();
-                    new SQLiteCommand("DELETE FROM series", connection).ExecuteNonQuery();
-
-                    Series.series.ForEach(s => SaveSerie(s));
-                    connection.Close();
+                    SaveFile();
 
                     reader.Close();
                     stream.Close();
@@ -129,6 +95,47 @@ namespace PlotThoseLines
                 Trace.WriteLine(e);
                 return false;
             }
+        }
+
+        private void SaveFile()
+        {
+            if (!File.Exists("ptl.db"))
+            {
+                File.Create("ptl.db").Close();
+            }
+            string connectionString = "Data Source=ptl.db;Version=3;";
+            SQLiteConnection connection = new SQLiteConnection(connectionString);
+
+            Action<(double, double), int> SavePoint = (t, i) =>
+            {
+                string insertPointSql = "INSERT INTO points (X, Y, Serie) VALUES (@x, @y, @serie)";
+                SQLiteCommand insertPointCommand = new SQLiteCommand(insertPointSql, connection);
+                insertPointCommand.Parameters.AddWithValue("@x", t.Item1);
+                insertPointCommand.Parameters.AddWithValue("@y", t.Item2);
+                insertPointCommand.Parameters.AddWithValue("@serie", i);
+                insertPointCommand.ExecuteNonQuery();
+            };
+
+            Action<Serie> SaveSerie = s =>
+            {
+                string insertSerieSql = "INSERT INTO series (Id, Name, IsDisplayed, Color) VALUES (@id, @name, @display, @color)";
+                SQLiteCommand insertSerieCommand = new SQLiteCommand(insertSerieSql, connection);
+                insertSerieCommand.Parameters.AddWithValue("@id", s.Id);
+                insertSerieCommand.Parameters.AddWithValue("@name", s.Name);
+                insertSerieCommand.Parameters.AddWithValue("@display", s.IsDisplayed);
+                insertSerieCommand.Parameters.AddWithValue("@color", s.Color.ToStringRGBA());
+                insertSerieCommand.ExecuteNonQuery();
+
+                List<(double, double)> values = s.XaxisValue.Zip(s.YaxisValue).ToList();
+                values.ForEach(x => SavePoint(x, s.Id));
+            };
+
+            connection.Open();
+            new SQLiteCommand("DELETE FROM points", connection).ExecuteNonQuery();
+            new SQLiteCommand("DELETE FROM series", connection).ExecuteNonQuery();
+
+            Series.series.ForEach(s => SaveSerie(s));
+            connection.Close();
         }
 
         private void button3_Click(object sender, EventArgs e)
@@ -164,6 +171,29 @@ namespace PlotThoseLines
             }
 
             this.label3.Text = String.IsNullOrEmpty(this._filename) ? "Choisir un fichier" : this._filename;
+        }
+
+        private void button5_Click(object sender, EventArgs e)
+        {
+            OpenFileDialog openFileDialog = new OpenFileDialog();
+
+            openFileDialog.InitialDirectory = Directory.GetCurrentDirectory() + "/snapshots";
+            openFileDialog.Filter = "All files (*.*)|*.*|DB files (*.db)|*.db";
+            openFileDialog.FilterIndex = 2;
+
+            if (openFileDialog.ShowDialog() == DialogResult.OK)
+            {
+                //Get the path of specified file
+                this._savefilename = openFileDialog.FileName;
+            }
+
+            this.label3.Text = String.IsNullOrEmpty(this._savefilename) ? "Choisir un fichier" : this._savefilename;
+        }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+            File.Delete("ptl.db");
+            File.Copy(this._savefilename, "ptl.db");
         }
     }
 }

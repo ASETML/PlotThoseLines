@@ -59,7 +59,6 @@ namespace PlotThoseLines
                     string Color = reader.GetString(3);
                     double X = reader.GetDouble(4);
                     double Y = reader.GetDouble(5);
-                    Trace.WriteLine(Id + " " + Name + " " + IsDisplayed + " " + Color + " " + X + " " + Y);
                     series.Add((Id, Name, IsDisplayed, Color, X,  Y));
                     if (Series.series.Where(s => s.Id == Id).Count() == 0) {
                         Series.series.Add(new Serie(Id, Name, IsDisplayed, Color));
@@ -69,13 +68,13 @@ namespace PlotThoseLines
                         Series.series.Where(s => s.Id == Id).First().XaxisValue.Add(X);
                         Series.series.Where(s => s.Id == Id).First().YaxisValue.Add(Y);
                     }
-                    Series.series.ForEach(s => Trace.WriteLine(s));
                 }
             }
             else
             {
                 Console.WriteLine("No rows found.");
             }
+            reader.Close();
             connection.Close();
 
             
