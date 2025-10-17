@@ -14,70 +14,8 @@ namespace PlotThoseLines
         public HomeForm()
         {
             Series.series = new List<Serie>();
+            SaveFile.Load();
 
-            //Restore series from savefile
-            string connectionString = "Data Source=ptl.db;Version=3;";
-            SQLiteConnection connection = new SQLiteConnection(connectionString);
-
-            string createSeriesTableSql = "CREATE TABLE IF NOT EXISTS series (Id INTEGER PRIMARY KEY, Name TEXT, IsDisplayed BOOLEAN, Color TEXT)";
-            string createPointsTableSql = "CREATE TABLE IF NOT EXISTS points (X FLOAT, Y FLOAT, Serie INTEGER, FOREIGN KEY(Serie) REFERENCES series(Id))";
-
-            SQLiteCommand createSeriesTableCommand = new SQLiteCommand(createSeriesTableSql, connection);
-            SQLiteCommand createPointsTableCommand = new SQLiteCommand(createPointsTableSql, connection);
-
-            try
-            {
-                connection.Open();
-                createSeriesTableCommand.ExecuteNonQuery();
-                createPointsTableCommand.ExecuteNonQuery();
-                //insertCommand.ExecuteNonQuery();
-                Console.WriteLine("Table created and data inserted!");
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine($"Error: {ex.Message}");
-            }
-            finally
-            {
-                connection.Close();
-            }
-            string sql = "SELECT * FROM series JOIN points ON series.Id = points.Serie";
-            SQLiteCommand command = new SQLiteCommand(sql, connection);
-            connection.Open();
-            SQLiteDataReader reader = command.ExecuteReader();
-
-            List<(int, string, bool, string, double, double)> series = new List<(int, string, bool, string, double, double)>();
-            // Check if rows are returned
-            if (reader.HasRows)
-            {
-                while (reader.Read())
-                {
-                    // Access columns by index or name
-                    int Id = reader.GetInt32(0);
-                    string Name = reader.GetString(1);
-                    bool IsDisplayed = reader.GetBoolean(2);
-                    string Color = reader.GetString(3);
-                    double X = reader.GetDouble(4);
-                    double Y = reader.GetDouble(5);
-                    series.Add((Id, Name, IsDisplayed, Color, X,  Y));
-                    if (Series.series.Where(s => s.Id == Id).Count() == 0) {
-                        Series.series.Add(new Serie(Id, Name, IsDisplayed, Color));
-                    }
-                    else
-                    {
-                        Series.series.Where(s => s.Id == Id).First().XaxisValue.Add(X);
-                        Series.series.Where(s => s.Id == Id).First().YaxisValue.Add(Y);
-                    }
-                }
-            }
-            else
-            {
-                Console.WriteLine("No rows found.");
-            }
-            reader.Close();
-            connection.Close();
-
-            
             Series.series.Add(new Serie("s1", new List<double> { 1, 2, 3, 4 }, new List<double> { 4, 5, 6, 7 }));
 
             InitializeComponent();

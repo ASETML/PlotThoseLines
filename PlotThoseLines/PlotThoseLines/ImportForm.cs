@@ -9,7 +9,6 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using ExcelDataReader;
-using System.Data;
 using System.Reflection.Metadata.Ecma335;
 using System.Data.SQLite;
 
@@ -76,7 +75,7 @@ namespace PlotThoseLines
                     Series.series.AddRange(importedSeries.Skip(2).SkipLast(2).ToList());
                     Series.series = Series.series.GroupBy(s => s.Name + s.YaxisValue.Count).Select(s => s.Last()).ToList();
 
-                    SaveFile();
+                    SaveFile.Save();
 
                     reader.Close();
                     stream.Close();
@@ -95,47 +94,6 @@ namespace PlotThoseLines
                 Trace.WriteLine(e);
                 return false;
             }
-        }
-
-        private void SaveFile()
-        {
-            if (!File.Exists("ptl.db"))
-            {
-                File.Create("ptl.db").Close();
-            }
-            string connectionString = "Data Source=ptl.db;Version=3;";
-            SQLiteConnection connection = new SQLiteConnection(connectionString);
-
-            Action<(double, double), int> SavePoint = (t, i) =>
-            {
-                string insertPointSql = "INSERT INTO points (X, Y, Serie) VALUES (@x, @y, @serie)";
-                SQLiteCommand insertPointCommand = new SQLiteCommand(insertPointSql, connection);
-                insertPointCommand.Parameters.AddWithValue("@x", t.Item1);
-                insertPointCommand.Parameters.AddWithValue("@y", t.Item2);
-                insertPointCommand.Parameters.AddWithValue("@serie", i);
-                insertPointCommand.ExecuteNonQuery();
-            };
-
-            Action<Serie> SaveSerie = s =>
-            {
-                string insertSerieSql = "INSERT INTO series (Id, Name, IsDisplayed, Color) VALUES (@id, @name, @display, @color)";
-                SQLiteCommand insertSerieCommand = new SQLiteCommand(insertSerieSql, connection);
-                insertSerieCommand.Parameters.AddWithValue("@id", s.Id);
-                insertSerieCommand.Parameters.AddWithValue("@name", s.Name);
-                insertSerieCommand.Parameters.AddWithValue("@display", s.IsDisplayed);
-                insertSerieCommand.Parameters.AddWithValue("@color", s.Color.ToStringRGBA());
-                insertSerieCommand.ExecuteNonQuery();
-
-                List<(double, double)> values = s.XaxisValue.Zip(s.YaxisValue).ToList();
-                values.ForEach(x => SavePoint(x, s.Id));
-            };
-
-            connection.Open();
-            new SQLiteCommand("DELETE FROM points", connection).ExecuteNonQuery();
-            new SQLiteCommand("DELETE FROM series", connection).ExecuteNonQuery();
-
-            Series.series.ForEach(s => SaveSerie(s));
-            connection.Close();
         }
 
         private void button3_Click(object sender, EventArgs e)
@@ -187,13 +145,16 @@ namespace PlotThoseLines
                 this._savefilename = openFileDialog.FileName;
             }
 
-            this.label3.Text = String.IsNullOrEmpty(this._savefilename) ? "Choisir un fichier" : this._savefilename;
+            this.label4.Text = String.IsNullOrEmpty(this._savefilename) ? "Choisir un fichier" : this._savefilename;
         }
 
         private void button2_Click(object sender, EventArgs e)
         {
             File.Delete("ptl.db");
             File.Copy(this._savefilename, "ptl.db");
+            SaveFile.Load();
+            Trace.Write(Series.series);
+            this.Close();
         }
     }
 }
