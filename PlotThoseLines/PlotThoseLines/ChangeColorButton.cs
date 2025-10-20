@@ -25,6 +25,7 @@ namespace PlotThoseLines
 
             Series.series.First(s => s.Id == this._serie.Id).ChangeColor(colorDialog.Color);
             this.BackColor = _serie.Color.ToSDColor();
+            this.ForeColor = _serie.Color.ToSDColor();
         }
 
         public void BindSerie(Serie s)

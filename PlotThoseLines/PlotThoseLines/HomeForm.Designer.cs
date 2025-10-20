@@ -33,22 +33,24 @@
             button2 = new Button();
             button3 = new Button();
             checkedListBox1 = new CheckedListBox();
-            changeColorButton1 = new ChangeColorButton();
+            flowLayoutPanel1 = new FlowLayoutPanel();
             SuspendLayout();
             // 
             // formsPlot1
             // 
             formsPlot1.DisplayScale = 1F;
-            formsPlot1.Location = new Point(143, 12);
+            formsPlot1.Location = new Point(372, 17);
+            formsPlot1.Margin = new Padding(4);
             formsPlot1.Name = "formsPlot1";
-            formsPlot1.Size = new Size(645, 426);
+            formsPlot1.Size = new Size(829, 596);
             formsPlot1.TabIndex = 0;
             // 
             // button1
             // 
-            button1.Location = new Point(6, 386);
+            button1.Location = new Point(8, 540);
+            button1.Margin = new Padding(4);
             button1.Name = "button1";
-            button1.Size = new Size(131, 23);
+            button1.Size = new Size(168, 32);
             button1.TabIndex = 1;
             button1.Text = "Importer / Restaurer";
             button1.UseVisualStyleBackColor = true;
@@ -56,9 +58,10 @@
             // 
             // button2
             // 
-            button2.Location = new Point(6, 415);
+            button2.Location = new Point(8, 581);
+            button2.Margin = new Padding(4);
             button2.Name = "button2";
-            button2.Size = new Size(75, 23);
+            button2.Size = new Size(96, 32);
             button2.TabIndex = 2;
             button2.Text = "Joindre";
             button2.UseVisualStyleBackColor = true;
@@ -67,9 +70,10 @@
             // button3
             // 
             button3.Enabled = false;
-            button3.Location = new Point(87, 415);
+            button3.Location = new Point(112, 581);
+            button3.Margin = new Padding(4);
             button3.Name = "button3";
-            button3.Size = new Size(50, 23);
+            button3.Size = new Size(64, 32);
             button3.TabIndex = 3;
             button3.Text = "f(x)";
             button3.UseVisualStyleBackColor = true;
@@ -77,31 +81,34 @@
             // checkedListBox1
             // 
             checkedListBox1.FormattingEnabled = true;
-            checkedListBox1.Location = new Point(6, 12);
+            checkedListBox1.Location = new Point(8, 17);
+            checkedListBox1.Margin = new Padding(4);
             checkedListBox1.Name = "checkedListBox1";
-            checkedListBox1.Size = new Size(131, 364);
+            checkedListBox1.Size = new Size(167, 508);
             checkedListBox1.TabIndex = 4;
             // 
-            // changeColorButton1
+            // flowLayoutPanel1
             // 
-            changeColorButton1.Location = new Point(143, 430);
-            changeColorButton1.Name = "changeColorButton1";
-            changeColorButton1.Size = new Size(131, 27);
-            changeColorButton1.TabIndex = 5;
-            changeColorButton1.Text = "changeColorButton1";
-            changeColorButton1.UseVisualStyleBackColor = true;
+            flowLayoutPanel1.AutoScroll = true;
+            flowLayoutPanel1.FlowDirection = FlowDirection.TopDown;
+            flowLayoutPanel1.Location = new Point(8, 17);
+            flowLayoutPanel1.Name = "flowLayoutPanel1";
+            flowLayoutPanel1.Size = new Size(357, 508);
+            flowLayoutPanel1.TabIndex = 6;
+            flowLayoutPanel1.WrapContents = false;
             // 
             // HomeForm
             // 
-            AutoScaleDimensions = new SizeF(7F, 15F);
+            AutoScaleDimensions = new SizeF(9F, 21F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(800, 450);
-            Controls.Add(changeColorButton1);
+            ClientSize = new Size(1198, 630);
+            Controls.Add(flowLayoutPanel1);
             Controls.Add(checkedListBox1);
             Controls.Add(button3);
             Controls.Add(button2);
             Controls.Add(button1);
             Controls.Add(formsPlot1);
+            Margin = new Padding(4);
             Name = "HomeForm";
             Text = "Plot Those Lines - Accueil";
             Activated += GotFocus;
@@ -115,6 +122,6 @@
         private Button button2;
         private Button button3;
         private CheckedListBox checkedListBox1;
-        private ChangeColorButton changeColorButton1;
+        private FlowLayoutPanel flowLayoutPanel1;
     }
 }

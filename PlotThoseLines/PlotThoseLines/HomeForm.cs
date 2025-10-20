@@ -20,8 +20,6 @@ namespace PlotThoseLines
 
             InitializeComponent();
             
-            changeColorButton1.BindSerie(Series.series.First());
-            
             /*ScottPlot.Plottables.Crosshair MyCrosshair = formsPlot1.Plot.Add.Crosshair(0, 0);
             MyCrosshair.IsVisible = false;
             MyCrosshair.MarkerShape = MarkerShape.OpenCircle;
@@ -93,9 +91,12 @@ namespace PlotThoseLines
 
         private void PlotForm()
         {
+            formsPlot1.Plot.Clear();
             Series.series.Where(s => s.IsDisplayed && s.YaxisValue.Count > 0).ToList().ForEach(s => formsPlot1.Plot.Add.Scatter(s.XaxisValue, s.YaxisValue, s.Color));
             formsPlot1.Plot.Axes.AutoScale();
             formsPlot1.Refresh();
+            //TEMP
+            Series.series.ForEach(s => flowLayoutPanel1.Controls.Add(new SerieSelector(s)));
         }
 
         private void button1_Click(object sender, EventArgs e)

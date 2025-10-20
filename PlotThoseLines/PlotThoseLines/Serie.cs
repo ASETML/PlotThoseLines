@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace PlotThoseLines
 {
-    class Serie
+    public class Serie
     {
         public int Id { get; set; }
 
