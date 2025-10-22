@@ -38,13 +38,13 @@ namespace PlotThoseLines
                     {
                         int Id = reader.GetInt32("Id");
                         string Name = reader.GetString("Name");
-                        bool IsDisplayed = reader.GetBoolean("IsDisplayed");
+                        string IsDisplayed = reader.GetString("IsDisplayed");;
                         string Color = reader.GetString("Color");
                         double X = reader.GetDouble("X");
                         double Y = reader.GetDouble("Y");
                         if (Series.series.Where(s => s.Id == Id).Count() == 0)
                         {
-                            Series.series.Add(new Serie(Id, Name, IsDisplayed, Color));
+                            Series.series.Add(new Serie(Id, Name, Boolean.Parse(IsDisplayed), Color));
                         }
                         else
                         {
@@ -77,6 +77,10 @@ namespace PlotThoseLines
             string connectionString = "Data Source=ptl.db;Version=3;";
             SQLiteConnection connection = new SQLiteConnection(connectionString);
 
+            Directory.CreateDirectory("snapshots");
+            DateTime now = DateTime.Now;
+            string saveFileName = $"snapshots\\ptl-{now.Year}-{now.Month}-{now.Day}-{now.Hour}-{now.Minute}-{now.Second}.sql";
+
             try
             {
                 if (!File.Exists("ptl.db"))
@@ -86,23 +90,21 @@ namespace PlotThoseLines
 
                 Action<(double, double), int> SavePoint = (t, i) =>
                 {
-                    string insertPointSql = "INSERT INTO points (X, Y, Serie) VALUES (@x, @y, @serie)";
+                    string insertPointSql = $"INSERT INTO points (X, Y, Serie) VALUES ('{t.Item1}', '{t.Item2}', '{i}')";
                     SQLiteCommand insertPointCommand = new SQLiteCommand(insertPointSql, connection);
-                    insertPointCommand.Parameters.AddWithValue("@x", t.Item1);
-                    insertPointCommand.Parameters.AddWithValue("@y", t.Item2);
-                    insertPointCommand.Parameters.AddWithValue("@serie", i);
                     insertPointCommand.ExecuteNonQuery();
+                    string[] sqlArray = new string[1] { insertPointSql + ";"};
+                    File.AppendAllLines(saveFileName, sqlArray);
                 };
 
                 Action<Serie> SaveSerie = s =>
                 {
-                    string insertSerieSql = "INSERT INTO series (Id, Name, IsDisplayed, Color) VALUES (@id, @name, @display, @color)";
+                    string insertSerieSql = $"INSERT INTO series (Id, Name, IsDisplayed, Color) VALUES ('{s.Id}', '{s.Name}', '{s.IsDisplayed}', '{s.Color.ToStringRGBA()}')";
                     SQLiteCommand insertSerieCommand = new SQLiteCommand(insertSerieSql, connection);
-                    insertSerieCommand.Parameters.AddWithValue("@id", s.Id);
-                    insertSerieCommand.Parameters.AddWithValue("@name", s.Name);
-                    insertSerieCommand.Parameters.AddWithValue("@display", s.IsDisplayed);
-                    insertSerieCommand.Parameters.AddWithValue("@color", s.Color.ToStringRGBA());
                     insertSerieCommand.ExecuteNonQuery();
+
+                    string[] sqlArray = new string[1] { insertSerieSql + ";" };
+                    File.AppendAllLines(saveFileName, sqlArray);
 
                     List<(double, double)> values = s.XaxisValue.Zip(s.YaxisValue).ToList();
                     values.ForEach(x => SavePoint(x, s.Id));

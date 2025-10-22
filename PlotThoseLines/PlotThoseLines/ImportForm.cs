@@ -25,11 +25,6 @@ namespace PlotThoseLines
 
         private bool ImportFile()
         {
-            Directory.CreateDirectory("snapshots");
-            DateTime now = DateTime.Now;
-            string x = $"snapshots\\ptl-{now.Year}-{now.Month}-{now.Day}-{now.Hour}-{now.Minute}-{now.Second}.db";
-            File.Copy("ptl.db", x);
-
             try
             {
                 FileStream stream = File.Open(this._filename, FileMode.Open, FileAccess.Read);
@@ -150,9 +145,19 @@ namespace PlotThoseLines
 
         private void button2_Click(object sender, EventArgs e)
         {
-            File.Delete("ptl.db");
-            File.Copy(this._savefilename, "ptl.db");
+            string connectionString = "Data Source=ptl.db;Version=3;";
+            SQLiteConnection connection = new SQLiteConnection(connectionString);
+            connection.Open();
+            
+            new SQLiteCommand("DELETE FROM points", connection).ExecuteNonQuery();
+            new SQLiteCommand("DELETE FROM series", connection).ExecuteNonQuery();
+
+            string[] importSql = File.ReadAllLines(this._savefilename);
+
+            importSql.ToList().ForEach(x => new SQLiteCommand(x, connection).ExecuteNonQuery());
             SaveFile.Load();
+            connection.Close();
+
             Trace.Write(Series.series);
             this.Close();
         }

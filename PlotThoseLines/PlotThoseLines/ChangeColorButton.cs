@@ -21,6 +21,7 @@ namespace PlotThoseLines
         {
             ColorDialog colorDialog = new ColorDialog();
             colorDialog.FullOpen = true;
+            colorDialog.Color = this._serie.Color.ToSDColor();
             colorDialog.ShowDialog();
 
             Series.series.First(s => s.Id == this._serie.Id).ChangeColor(colorDialog.Color);
@@ -32,11 +33,7 @@ namespace PlotThoseLines
         {
             this._serie = s;
             this.BackColor = _serie.Color.ToSDColor();
-        }
-
-        protected override void OnPaint(PaintEventArgs pe)
-        {
-            base.OnPaint(pe);
+            this.ForeColor = _serie.Color.ToSDColor();
         }
     }
 }
