@@ -28,12 +28,13 @@
         /// </summary>
         private void InitializeComponent()
         {
+            components = new System.ComponentModel.Container();
             formsPlot1 = new ScottPlot.WinForms.FormsPlot();
             button1 = new Button();
             button2 = new Button();
             button3 = new Button();
-            checkedListBox1 = new CheckedListBox();
             flowLayoutPanel1 = new FlowLayoutPanel();
+            timer_refresh = new System.Windows.Forms.Timer(components);
             SuspendLayout();
             // 
             // formsPlot1
@@ -78,15 +79,6 @@
             button3.Text = "f(x)";
             button3.UseVisualStyleBackColor = true;
             // 
-            // checkedListBox1
-            // 
-            checkedListBox1.FormattingEnabled = true;
-            checkedListBox1.Location = new Point(8, 17);
-            checkedListBox1.Margin = new Padding(4);
-            checkedListBox1.Name = "checkedListBox1";
-            checkedListBox1.Size = new Size(167, 508);
-            checkedListBox1.TabIndex = 4;
-            // 
             // flowLayoutPanel1
             // 
             flowLayoutPanel1.AutoScroll = true;
@@ -97,13 +89,16 @@
             flowLayoutPanel1.TabIndex = 6;
             flowLayoutPanel1.WrapContents = false;
             // 
+            // timer_refresh
+            // 
+            timer_refresh.Tick += timer_refresh_Tick;
+            // 
             // HomeForm
             // 
             AutoScaleDimensions = new SizeF(9F, 21F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(1198, 630);
             Controls.Add(flowLayoutPanel1);
-            Controls.Add(checkedListBox1);
             Controls.Add(button3);
             Controls.Add(button2);
             Controls.Add(button1);
@@ -121,7 +116,7 @@
         private Button button1;
         private Button button2;
         private Button button3;
-        private CheckedListBox checkedListBox1;
         private FlowLayoutPanel flowLayoutPanel1;
+        private System.Windows.Forms.Timer timer_refresh;
     }
 }

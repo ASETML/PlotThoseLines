@@ -7,7 +7,7 @@ using System.Runtime.CompilerServices;
 
 namespace PlotThoseLines
 {
-    partial class HomeForm : Form
+    public partial class HomeForm : Form
     {
         //Find closest point to mouse
         //ScottPlot.Plottables.Scatter MyScatter;
@@ -15,11 +15,15 @@ namespace PlotThoseLines
         {
             Series.series = new List<Serie>();
             SaveFile.Load();
+            timer_refresh = new System.Windows.Forms.Timer();
+            timer_refresh.Interval = 250;
+            timer_refresh.Tick += timer_refresh_Tick;
+            timer_refresh.Start();
 
             Series.series.Add(new Serie("s1", new List<double> { 1, 2, 3, 4 }, new List<double> { 4, 5, 6, 7 }));
 
             InitializeComponent();
-            
+
             /*ScottPlot.Plottables.Crosshair MyCrosshair = formsPlot1.Plot.Add.Crosshair(0, 0);
             MyCrosshair.IsVisible = false;
             MyCrosshair.MarkerShape = MarkerShape.OpenCircle;
@@ -51,31 +55,7 @@ namespace PlotThoseLines
                 }
             };*/
 
-            double[] dataX = { 1, 2, 3, 4, 5 };
-            double[] dataY = { 1, 4, 9, 16, 25 };
-
-            double[] dx = { 1, 2, 3, 5, 50, -5 };
-            double[] dy = { 10, 9, 8, 12, -10, 25 };
-
-            //Series.series.Add(new Serie("1", dataX.ToList(), dataY.ToList()));
-            //Series.series.Add(new Serie("2", dx.ToList(), dy.ToList()));
-
             PlotForm();
-
-            //Binding à la checkbox seulement après ajout des données
-            //((ListBox)this.checkedListBox1).DataSource = Series.series;
-            ((ListBox)this.checkedListBox1).DisplayMember = "Name";
-            ((ListBox)this.checkedListBox1).ValueMember = "IsDisplayed";
-            checkedListBox1.Items.Add(new Serie("1", dataX.ToList(), dataY.ToList()));
-            checkedListBox1.Items.Add(new Serie("2", dx.ToList(), dy.ToList()));
-            var x = checkedListBox1.Items;
-
-            //Coche les élèments par défaut https://stackoverflow.com/questions/7485631/winforms-how-to-bind-the-checkbox-item-of-a-checkedlistbox-with-databinding
-            for (int i = 0; i < checkedListBox1.Items.Count; i++)
-            {
-                Serie obj = (Serie)checkedListBox1.Items[i];
-                checkedListBox1.SetItemChecked(i, obj.IsDisplayed);
-            }
         }
 
         /// <summary>
@@ -89,13 +69,14 @@ namespace PlotThoseLines
             PlotForm();
         }
 
-        private void PlotForm()
+        public void PlotForm()
         {
             formsPlot1.Plot.Clear();
             Series.series.Where(s => s.IsDisplayed && s.YaxisValue.Count > 0).ToList().ForEach(s => formsPlot1.Plot.Add.Scatter(s.XaxisValue, s.YaxisValue, s.Color));
-            formsPlot1.Plot.Axes.AutoScale();
+            //formsPlot1.Plot.Axes.AutoScale();
             formsPlot1.Refresh();
             //TEMP
+            flowLayoutPanel1.Controls.Clear();
             Series.series.ForEach(s => flowLayoutPanel1.Controls.Add(new SerieSelector(s)));
         }
 
@@ -109,6 +90,12 @@ namespace PlotThoseLines
         {
             JunctionForm junctionForm = new JunctionForm();
             junctionForm.Show();
+        }
+
+        private void timer_refresh_Tick(object sender, EventArgs e)
+        {
+            Trace.WriteLine(DateTime.Now.ToString());
+            PlotForm();
         }
     }
 }
