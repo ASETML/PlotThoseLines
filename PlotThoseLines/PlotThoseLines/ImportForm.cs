@@ -147,6 +147,10 @@ namespace PlotThoseLines
 
         private void button2_Click(object sender, EventArgs e)
         {
+            LoadingModal loader = new LoadingModal();
+            loader.ShowDialog();
+
+            new LoadingModal().ShowDialog();
             string connectionString = "Data Source=ptl.db;Version=3;";
             SQLiteConnection connection = new SQLiteConnection(connectionString);
             connection.Open();
@@ -160,7 +164,8 @@ namespace PlotThoseLines
             SaveFile.Load();
             connection.Close();
 
-            Trace.Write(Series.series);
+            loader.Close();
+            SeriesImported.Invoke(this, EventArgs.Empty);
             this.Close();
         }
     }
