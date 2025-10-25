@@ -15,12 +15,6 @@ namespace PlotThoseLines
         {
             Series.series = new List<Serie>();
             SaveFile.Load();
-            timer_refresh = new System.Windows.Forms.Timer();
-            timer_refresh.Interval = 250;
-            timer_refresh.Tick += timer_refresh_Tick;
-            timer_refresh.Start();
-
-            Series.series.Add(new Serie("s1", new List<double> { 1, 2, 3, 4 }, new List<double> { 4, 5, 6, 7 }));
 
             InitializeComponent();
 
@@ -54,7 +48,13 @@ namespace PlotThoseLines
                     }
                 }
             };*/
-
+            flowLayoutPanel1.Controls.Clear();
+            Series.series.ForEach(s => flowLayoutPanel1.Controls.Add(new SerieSelector(s)));
+            foreach (SerieSelector s in flowLayoutPanel1.Controls)
+            {
+                s.SerieCheckedChanged += GotFocus;
+                s.SerieRemoved += SerieRemoved;
+            }
             PlotForm();
         }
 
@@ -65,7 +65,6 @@ namespace PlotThoseLines
         /// <param name="e"></param>
         private void GotFocus(object sender, EventArgs e)
         {
-            //TODO: stocker la dernière liste importée: si elle est différente, recharger le plot, sinon rien
             PlotForm();
         }
 
@@ -73,16 +72,20 @@ namespace PlotThoseLines
         {
             formsPlot1.Plot.Clear();
             Series.series.Where(s => s.IsDisplayed && s.YaxisValue.Count > 0).ToList().ForEach(s => formsPlot1.Plot.Add.Scatter(s.XaxisValue, s.YaxisValue, s.Color));
-            //formsPlot1.Plot.Axes.AutoScale();
+            formsPlot1.Plot.Axes.AutoScale();
             formsPlot1.Refresh();
-            //TEMP
-            flowLayoutPanel1.Controls.Clear();
-            Series.series.ForEach(s => flowLayoutPanel1.Controls.Add(new SerieSelector(s)));
+        }
+
+        private void SerieRemoved(object sender, EventArgs e)
+        {
+            PlotForm();
+            SaveFile.Save();
         }
 
         private void button1_Click(object sender, EventArgs e)
         {
             ImportForm importForm = new ImportForm();
+            importForm.SeriesImported += GotFocus;
             importForm.Show();
         }
 
@@ -90,12 +93,6 @@ namespace PlotThoseLines
         {
             JunctionForm junctionForm = new JunctionForm();
             junctionForm.Show();
-        }
-
-        private void timer_refresh_Tick(object sender, EventArgs e)
-        {
-            Trace.WriteLine(DateTime.Now.ToString());
-            PlotForm();
         }
     }
 }

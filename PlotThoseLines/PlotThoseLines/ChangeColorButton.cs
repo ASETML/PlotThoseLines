@@ -11,6 +11,7 @@ namespace PlotThoseLines
     partial class ChangeColorButton : Button
     {
         private Serie _serie;
+        public event EventHandler ColorChanged;
 
         public ChangeColorButton()
         {
@@ -27,6 +28,7 @@ namespace PlotThoseLines
             Series.series.First(s => s.Id == this._serie.Id).ChangeColor(colorDialog.Color);
             this.BackColor = _serie.Color.ToSDColor();
             this.ForeColor = _serie.Color.ToSDColor();
+            ColorChanged.Invoke(this, EventArgs.Empty);
         }
 
         public void BindSerie(Serie s)

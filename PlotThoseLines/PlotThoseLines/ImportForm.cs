@@ -11,6 +11,7 @@ using System.Windows.Forms;
 using ExcelDataReader;
 using System.Reflection.Metadata.Ecma335;
 using System.Data.SQLite;
+using OpenTK.Graphics.ES11;
 
 namespace PlotThoseLines
 {
@@ -18,6 +19,7 @@ namespace PlotThoseLines
     {
         private string _filename;
         private string _savefilename;
+        public event EventHandler SeriesImported;
         public ImportForm()
         {
             InitializeComponent();
@@ -48,8 +50,7 @@ namespace PlotThoseLines
                         {
                             if (col.Ordinal != 0)
                             {
-
-                                var cell = row[col].ToString();
+                                string cell = row[col].ToString(); 
                                 if (cell != "")
                                 {
                                     if (cell != "no data")
@@ -101,6 +102,7 @@ namespace PlotThoseLines
             bool success = ImportFile();
             if (success)
             {
+                SeriesImported.Invoke(this, EventArgs.Empty);
                 this.Close();
             }
             else
@@ -131,7 +133,7 @@ namespace PlotThoseLines
             OpenFileDialog openFileDialog = new OpenFileDialog();
 
             openFileDialog.InitialDirectory = Directory.GetCurrentDirectory() + "/snapshots";
-            openFileDialog.Filter = "All files (*.*)|*.*|DB files (*.db)|*.db";
+            openFileDialog.Filter = "All files (*.*)|*.*|Sql files (*.sql)|*.sql";
             openFileDialog.FilterIndex = 2;
 
             if (openFileDialog.ShowDialog() == DialogResult.OK)

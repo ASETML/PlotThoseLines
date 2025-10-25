@@ -28,13 +28,11 @@
         /// </summary>
         private void InitializeComponent()
         {
-            components = new System.ComponentModel.Container();
             formsPlot1 = new ScottPlot.WinForms.FormsPlot();
             button1 = new Button();
             button2 = new Button();
             button3 = new Button();
             flowLayoutPanel1 = new FlowLayoutPanel();
-            timer_refresh = new System.Windows.Forms.Timer(components);
             SuspendLayout();
             // 
             // formsPlot1
@@ -59,6 +57,7 @@
             // 
             // button2
             // 
+            button2.Enabled = false;
             button2.Location = new Point(8, 581);
             button2.Margin = new Padding(4);
             button2.Name = "button2";
@@ -89,10 +88,6 @@
             flowLayoutPanel1.TabIndex = 6;
             flowLayoutPanel1.WrapContents = false;
             // 
-            // timer_refresh
-            // 
-            timer_refresh.Tick += timer_refresh_Tick;
-            // 
             // HomeForm
             // 
             AutoScaleDimensions = new SizeF(9F, 21F);
@@ -106,7 +101,6 @@
             Margin = new Padding(4);
             Name = "HomeForm";
             Text = "Plot Those Lines - Accueil";
-            Activated += GotFocus;
             ResumeLayout(false);
         }
 
@@ -117,6 +111,5 @@
         private Button button2;
         private Button button3;
         private FlowLayoutPanel flowLayoutPanel1;
-        private System.Windows.Forms.Timer timer_refresh;
     }
 }

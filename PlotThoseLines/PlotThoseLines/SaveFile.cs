@@ -38,7 +38,7 @@ namespace PlotThoseLines
                     {
                         int Id = reader.GetInt32("Id");
                         string Name = reader.GetString("Name");
-                        string IsDisplayed = reader.GetString("IsDisplayed");;
+                        string IsDisplayed = reader.GetString("IsDisplayed"); ;
                         string Color = reader.GetString("Color");
                         double X = reader.GetDouble("X");
                         double Y = reader.GetDouble("Y");
@@ -46,16 +46,14 @@ namespace PlotThoseLines
                         {
                             Series.series.Add(new Serie(Id, Name, Boolean.Parse(IsDisplayed), Color));
                         }
-                        else
-                        {
-                            Series.series.Where(s => s.Id == Id).First().XaxisValue.Add(X);
-                            Series.series.Where(s => s.Id == Id).First().YaxisValue.Add(Y);
-                        }
+
+                        Series.series.Where(s => s.Id == Id).First().XaxisValue.Add(X);
+                        Series.series.Where(s => s.Id == Id).First().YaxisValue.Add(Y);
                     }
                 }
                 else
                 {
-                    Console.WriteLine("No rows found.");
+                    Trace.WriteLine("No rows found.");
                 }
                 reader.Close();
                 connection.Close();
@@ -88,23 +86,23 @@ namespace PlotThoseLines
                     File.Create("ptl.db").Close();
                 }
 
+                List<string> sqlCommands = new List<string>();
+
                 Action<(double, double), int> SavePoint = (t, i) =>
                 {
                     string insertPointSql = $"INSERT INTO points (X, Y, Serie) VALUES ('{t.Item1}', '{t.Item2}', '{i}')";
                     SQLiteCommand insertPointCommand = new SQLiteCommand(insertPointSql, connection);
                     insertPointCommand.ExecuteNonQuery();
-                    string[] sqlArray = new string[1] { insertPointSql + ";"};
-                    File.AppendAllLines(saveFileName, sqlArray);
+                    sqlCommands.Add(insertPointSql + ";");
                 };
 
                 Action<Serie> SaveSerie = s =>
                 {
-                    string insertSerieSql = $"INSERT INTO series (Id, Name, IsDisplayed, Color) VALUES ('{s.Id}', '{s.Name}', '{s.IsDisplayed}', '{s.Color.ToStringRGBA()}')";
+                    string insertSerieSql = $"INSERT INTO series (Id, Name, IsDisplayed, Color) VALUES ('{s.Id}', '{s.Name.ToString().Replace('\'', '"')}', '{s.IsDisplayed}', '{s.Color.ToStringRGBA()}')";
                     SQLiteCommand insertSerieCommand = new SQLiteCommand(insertSerieSql, connection);
                     insertSerieCommand.ExecuteNonQuery();
 
-                    string[] sqlArray = new string[1] { insertSerieSql + ";" };
-                    File.AppendAllLines(saveFileName, sqlArray);
+                    sqlCommands.Add(insertSerieSql + ";");
 
                     List<(double, double)> values = s.XaxisValue.Zip(s.YaxisValue).ToList();
                     values.ForEach(x => SavePoint(x, s.Id));
@@ -115,6 +113,48 @@ namespace PlotThoseLines
                 new SQLiteCommand("DELETE FROM series", connection).ExecuteNonQuery();
 
                 Series.series.ForEach(s => SaveSerie(s));
+                File.AppendAllLines(saveFileName, sqlCommands.ToArray());
+                connection.Close();
+            }
+            catch (Exception ex)
+            {
+                Trace.WriteLine(ex.ToString());
+            }
+            finally
+            {
+                connection.Close();
+            }
+        }
+
+        public static void UpdateSerieCheck(Serie serie)
+        {
+            string connectionString = "Data Source=ptl.db;Version=3;";
+            SQLiteConnection connection = new SQLiteConnection(connectionString);
+
+            try
+            {
+                connection.Open();
+                new SQLiteCommand($"UPDATE series SET IsDisplayed = '{serie.IsDisplayed}' WHERE Id = '{serie.Id}'", connection).ExecuteNonQuery();
+                connection.Close();
+            }
+            catch (Exception ex)
+            {
+                Trace.WriteLine(ex.ToString());
+            }
+            finally
+            {
+                connection.Close();
+            }
+        }
+        public static void DeleteSerie(Serie serie)
+        {
+            string connectionString = "Data Source=ptl.db;Version=3;";
+            SQLiteConnection connection = new SQLiteConnection(connectionString);
+
+            try
+            {
+                connection.Open();
+                new SQLiteCommand($"DELETE FROM series WHERE Id = '{serie.Id}'", connection).ExecuteNonQuery();
                 connection.Close();
             }
             catch (Exception ex)
