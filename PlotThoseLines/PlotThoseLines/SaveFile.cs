@@ -11,6 +11,9 @@ namespace PlotThoseLines
 {
     public static class SaveFile
     {
+        /// <summary>
+        /// Load series from the database
+        /// </summary>
         public static void Load()
         {
             string connectionString = "Data Source=ptl.db;Version=3;";
@@ -42,13 +45,13 @@ namespace PlotThoseLines
                         string Color = reader.GetString("Color");
                         double X = reader.GetDouble("X");
                         double Y = reader.GetDouble("Y");
-                        if (Series.series.Where(s => s.Id == Id).Count() == 0)
+                        if (Program.series.Where(s => s.Id == Id).Count() == 0)
                         {
-                            Series.series.Add(new Serie(Id, Name, Boolean.Parse(IsDisplayed), Color));
+                            Program.series.Add(new Serie(Id, Name, Boolean.Parse(IsDisplayed), Color));
                         }
 
-                        Series.series.Where(s => s.Id == Id).First().XaxisValue.Add(X);
-                        Series.series.Where(s => s.Id == Id).First().YaxisValue.Add(Y);
+                        Program.series.Where(s => s.Id == Id).First().XaxisValue.Add(X);
+                        Program.series.Where(s => s.Id == Id).First().YaxisValue.Add(Y);
                     }
                 }
                 else
@@ -70,6 +73,9 @@ namespace PlotThoseLines
             }
         }
 
+        /// <summary>
+        /// Save series to the database
+        /// </summary>
         public static void Save()
         {
             string connectionString = "Data Source=ptl.db;Version=3;";
@@ -112,7 +118,7 @@ namespace PlotThoseLines
                 new SQLiteCommand("DELETE FROM points", connection).ExecuteNonQuery();
                 new SQLiteCommand("DELETE FROM series", connection).ExecuteNonQuery();
 
-                Series.series.ForEach(s => SaveSerie(s));
+                Program.series.ForEach(s => SaveSerie(s));
                 File.AppendAllLines(saveFileName, sqlCommands.ToArray());
                 connection.Close();
             }
@@ -126,6 +132,10 @@ namespace PlotThoseLines
             }
         }
 
+        /// <summary>
+        /// Change the serie IsDisplayed property in the database
+        /// </summary>
+        /// <param name="serie">The serie to update</param>
         public static void UpdateSerieCheck(Serie serie)
         {
             string connectionString = "Data Source=ptl.db;Version=3;";
@@ -146,6 +156,10 @@ namespace PlotThoseLines
                 connection.Close();
             }
         }
+        /// <summary>
+        /// Delete a serie from the database
+        /// </summary>
+        /// <param name="serie">The serie to delete</param>
         public static void DeleteSerie(Serie serie)
         {
             string connectionString = "Data Source=ptl.db;Version=3;";
@@ -154,6 +168,7 @@ namespace PlotThoseLines
             try
             {
                 connection.Open();
+                new SQLiteCommand($"DELETE FROM points WHERE Serie = '{serie.Id}'", connection).ExecuteNonQuery();
                 new SQLiteCommand($"DELETE FROM series WHERE Id = '{serie.Id}'", connection).ExecuteNonQuery();
                 connection.Close();
             }

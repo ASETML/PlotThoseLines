@@ -28,76 +28,76 @@
         /// </summary>
         private void InitializeComponent()
         {
-            formsPlot1 = new ScottPlot.WinForms.FormsPlot();
-            button1 = new Button();
-            button2 = new Button();
-            button3 = new Button();
-            flowLayoutPanel1 = new FlowLayoutPanel();
+            plot = new ScottPlot.WinForms.FormsPlot();
+            btnImport = new Button();
+            btnJoin = new Button();
+            btnFunction = new Button();
+            checkboxList = new FlowLayoutPanel();
             SuspendLayout();
             // 
-            // formsPlot1
+            // plot
             // 
-            formsPlot1.DisplayScale = 1F;
-            formsPlot1.Location = new Point(372, 17);
-            formsPlot1.Margin = new Padding(4);
-            formsPlot1.Name = "formsPlot1";
-            formsPlot1.Size = new Size(829, 596);
-            formsPlot1.TabIndex = 0;
+            plot.DisplayScale = 1F;
+            plot.Location = new Point(372, 17);
+            plot.Margin = new Padding(4);
+            plot.Name = "plot";
+            plot.Size = new Size(829, 596);
+            plot.TabIndex = 0;
             // 
-            // button1
+            // btnImport
             // 
-            button1.Location = new Point(8, 540);
-            button1.Margin = new Padding(4);
-            button1.Name = "button1";
-            button1.Size = new Size(168, 32);
-            button1.TabIndex = 1;
-            button1.Text = "Importer / Restaurer";
-            button1.UseVisualStyleBackColor = true;
-            button1.Click += button1_Click;
+            btnImport.Location = new Point(8, 540);
+            btnImport.Margin = new Padding(4);
+            btnImport.Name = "btnImport";
+            btnImport.Size = new Size(168, 32);
+            btnImport.TabIndex = 1;
+            btnImport.Text = "Importer / Restaurer";
+            btnImport.UseVisualStyleBackColor = true;
+            btnImport.Click += btnImport_Click;
             // 
-            // button2
+            // btnJoin
             // 
-            button2.Enabled = false;
-            button2.Location = new Point(8, 581);
-            button2.Margin = new Padding(4);
-            button2.Name = "button2";
-            button2.Size = new Size(96, 32);
-            button2.TabIndex = 2;
-            button2.Text = "Joindre";
-            button2.UseVisualStyleBackColor = true;
-            button2.Click += button2_Click;
+            btnJoin.Enabled = false;
+            btnJoin.Location = new Point(8, 581);
+            btnJoin.Margin = new Padding(4);
+            btnJoin.Name = "btnJoin";
+            btnJoin.Size = new Size(96, 32);
+            btnJoin.TabIndex = 2;
+            btnJoin.Text = "Joindre";
+            btnJoin.UseVisualStyleBackColor = true;
+            btnJoin.Click += btnJoin_Click;
             // 
-            // button3
+            // btnFunction
             // 
-            button3.Enabled = false;
-            button3.Location = new Point(112, 581);
-            button3.Margin = new Padding(4);
-            button3.Name = "button3";
-            button3.Size = new Size(64, 32);
-            button3.TabIndex = 3;
-            button3.Text = "f(x)";
-            button3.UseVisualStyleBackColor = true;
+            btnFunction.Enabled = false;
+            btnFunction.Location = new Point(112, 581);
+            btnFunction.Margin = new Padding(4);
+            btnFunction.Name = "btnFunction";
+            btnFunction.Size = new Size(64, 32);
+            btnFunction.TabIndex = 3;
+            btnFunction.Text = "f(x)";
+            btnFunction.UseVisualStyleBackColor = true;
             // 
-            // flowLayoutPanel1
+            // checkboxList
             // 
-            flowLayoutPanel1.AutoScroll = true;
-            flowLayoutPanel1.FlowDirection = FlowDirection.TopDown;
-            flowLayoutPanel1.Location = new Point(8, 17);
-            flowLayoutPanel1.Name = "flowLayoutPanel1";
-            flowLayoutPanel1.Size = new Size(357, 508);
-            flowLayoutPanel1.TabIndex = 6;
-            flowLayoutPanel1.WrapContents = false;
+            checkboxList.AutoScroll = true;
+            checkboxList.FlowDirection = FlowDirection.TopDown;
+            checkboxList.Location = new Point(8, 17);
+            checkboxList.Name = "checkboxList";
+            checkboxList.Size = new Size(357, 508);
+            checkboxList.TabIndex = 6;
+            checkboxList.WrapContents = false;
             // 
             // HomeForm
             // 
             AutoScaleDimensions = new SizeF(9F, 21F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(1198, 630);
-            Controls.Add(flowLayoutPanel1);
-            Controls.Add(button3);
-            Controls.Add(button2);
-            Controls.Add(button1);
-            Controls.Add(formsPlot1);
+            Controls.Add(checkboxList);
+            Controls.Add(btnFunction);
+            Controls.Add(btnJoin);
+            Controls.Add(btnImport);
+            Controls.Add(plot);
             Margin = new Padding(4);
             Name = "HomeForm";
             Text = "Plot Those Lines - Accueil";
@@ -106,10 +106,10 @@
 
         #endregion
 
-        private ScottPlot.WinForms.FormsPlot formsPlot1;
-        private Button button1;
-        private Button button2;
-        private Button button3;
-        private FlowLayoutPanel flowLayoutPanel1;
+        private ScottPlot.WinForms.FormsPlot plot;
+        private Button btnImport;
+        private Button btnJoin;
+        private Button btnFunction;
+        private FlowLayoutPanel checkboxList;
     }
 }

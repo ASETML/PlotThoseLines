@@ -50,7 +50,7 @@ namespace PlotThoseLines
                         {
                             if (col.Ordinal != 0)
                             {
-                                string cell = row[col].ToString(); 
+                                string cell = row[col].ToString();
                                 if (cell != "")
                                 {
                                     if (cell != "no data")
@@ -68,8 +68,8 @@ namespace PlotThoseLines
                         importedSeries.Add(s);
                     }
 
-                    Series.series.AddRange(importedSeries.Skip(2).SkipLast(2).ToList());
-                    Series.series = Series.series.GroupBy(s => s.Name + s.YaxisValue.Count).Select(s => s.Last()).ToList();
+                    Program.series.AddRange(importedSeries.Skip(2).SkipLast(2).ToList());
+                    Program.series = Program.series.GroupBy(s => s.Name + s.YaxisValue.Count).Select(s => s.Last()).ToList();
 
                     SaveFile.Save();
 
@@ -92,26 +92,7 @@ namespace PlotThoseLines
             }
         }
 
-        private void button3_Click(object sender, EventArgs e)
-        {
-            this.Close();
-        }
-
-        private void button1_Click(object sender, EventArgs e)
-        {
-            bool success = ImportFile();
-            if (success)
-            {
-                SeriesImported.Invoke(this, EventArgs.Empty);
-                this.Close();
-            }
-            else
-            {
-                this.errorLabel.Text = "Erreur lors de l'import du fichier: mauvais format de fichier";
-            }
-        }
-
-        private void button4_Click(object sender, EventArgs e)
+        private void buttonImportFile_Click(object sender, EventArgs e)
         {
             OpenFileDialog openFileDialog = new OpenFileDialog();
 
@@ -125,10 +106,24 @@ namespace PlotThoseLines
                 this._filename = openFileDialog.FileName;
             }
 
-            this.label3.Text = String.IsNullOrEmpty(this._filename) ? "Choisir un fichier" : this._filename;
+            this.labeImportFile.Text = String.IsNullOrEmpty(this._filename) ? "Choisir un fichier" : this._filename;
         }
 
-        private void button5_Click(object sender, EventArgs e)
+        private void buttonImport_Click(object sender, EventArgs e)
+        {
+            bool success = ImportFile();
+            if (success)
+            {
+                SeriesImported.Invoke(this, EventArgs.Empty);
+                this.Close();
+            }
+            else
+            {
+                this.labelError.Text = "Erreur lors de l'import du fichier: mauvais format de fichier";
+            }
+        }
+
+        private void buttonRestoreFile_Click(object sender, EventArgs e)
         {
             OpenFileDialog openFileDialog = new OpenFileDialog();
 
@@ -142,30 +137,37 @@ namespace PlotThoseLines
                 this._savefilename = openFileDialog.FileName;
             }
 
-            this.label4.Text = String.IsNullOrEmpty(this._savefilename) ? "Choisir un fichier" : this._savefilename;
+            this.labelRestoreFile.Text = String.IsNullOrEmpty(this._savefilename) ? "Choisir un fichier" : this._savefilename;
         }
 
-        private void button2_Click(object sender, EventArgs e)
+        private void buttonRestore_Click(object sender, EventArgs e)
         {
             LoadingModal loader = new LoadingModal();
-            loader.ShowDialog();
+            loader.Show();
 
-            new LoadingModal().ShowDialog();
+            Program.series.Clear();
             string connectionString = "Data Source=ptl.db;Version=3;";
             SQLiteConnection connection = new SQLiteConnection(connectionString);
             connection.Open();
-            
+
             new SQLiteCommand("DELETE FROM points", connection).ExecuteNonQuery();
             new SQLiteCommand("DELETE FROM series", connection).ExecuteNonQuery();
 
             string[] importSql = File.ReadAllLines(this._savefilename);
 
+            importSql.ToList().ForEach(x => Trace.WriteLine(x));
             importSql.ToList().ForEach(x => new SQLiteCommand(x, connection).ExecuteNonQuery());
             SaveFile.Load();
             connection.Close();
 
             loader.Close();
+
             SeriesImported.Invoke(this, EventArgs.Empty);
+            this.Close();
+        }
+
+        private void buttonClose_Click(object sender, EventArgs e)
+        {
             this.Close();
         }
     }

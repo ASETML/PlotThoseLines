@@ -28,57 +28,57 @@
         /// </summary>
         private void InitializeComponent()
         {
-            checkBox1 = new CheckBox();
-            changeColorButton1 = new ChangeColorButton();
-            label1 = new Label();
-            button1 = new Button();
+            checkBox = new CheckBox();
+            changeColorButton = new ChangeColorButton();
+            labelSerieName = new Label();
+            buttonDelete = new Button();
             SuspendLayout();
             // 
-            // checkBox1
+            // checkBox
             // 
-            checkBox1.AutoSize = true;
-            checkBox1.Location = new Point(3, 11);
-            checkBox1.Name = "checkBox1";
-            checkBox1.Size = new Size(18, 17);
-            checkBox1.TabIndex = 0;
-            checkBox1.UseVisualStyleBackColor = true;
+            checkBox.AutoSize = true;
+            checkBox.Location = new Point(3, 11);
+            checkBox.Name = "checkBox";
+            checkBox.Size = new Size(18, 17);
+            checkBox.TabIndex = 0;
+            checkBox.UseVisualStyleBackColor = true;
             // 
-            // changeColorButton1
+            // changeColorButton
             // 
-            changeColorButton1.Location = new Point(253, 3);
-            changeColorButton1.Name = "changeColorButton1";
-            changeColorButton1.Size = new Size(56, 30);
-            changeColorButton1.TabIndex = 1;
-            changeColorButton1.Text = "changeColorButton1";
-            changeColorButton1.UseVisualStyleBackColor = true;
+            changeColorButton.Location = new Point(253, 3);
+            changeColorButton.Name = "changeColorButton";
+            changeColorButton.Size = new Size(56, 30);
+            changeColorButton.TabIndex = 1;
+            changeColorButton.Text = "changeColorButton1";
+            changeColorButton.UseVisualStyleBackColor = true;
             // 
-            // label1
+            // labelSerieName
             // 
-            label1.AutoSize = true;
-            label1.Location = new Point(27, 8);
-            label1.Name = "label1";
-            label1.Size = new Size(52, 21);
-            label1.TabIndex = 2;
-            label1.Text = "label1";
+            labelSerieName.AutoSize = true;
+            labelSerieName.Location = new Point(27, 8);
+            labelSerieName.Name = "labelSerieName";
+            labelSerieName.Size = new Size(52, 21);
+            labelSerieName.TabIndex = 2;
+            labelSerieName.Text = "label1";
             // 
-            // button1
+            // buttonDelete
             // 
-            button1.Location = new Point(315, 3);
-            button1.Name = "button1";
-            button1.Size = new Size(25, 30);
-            button1.TabIndex = 3;
-            button1.Text = "X";
-            button1.UseVisualStyleBackColor = true;
-            button1.Click += button1_Click;
+            buttonDelete.Location = new Point(315, 3);
+            buttonDelete.Name = "buttonDelete";
+            buttonDelete.Size = new Size(25, 30);
+            buttonDelete.TabIndex = 3;
+            buttonDelete.Text = "X";
+            buttonDelete.UseVisualStyleBackColor = true;
+            buttonDelete.Click += button1_Click;
             // 
             // SerieSelector
             // 
             AutoScaleDimensions = new SizeF(9F, 21F);
             AutoScaleMode = AutoScaleMode.Font;
-            Controls.Add(button1);
-            Controls.Add(label1);
-            Controls.Add(changeColorButton1);
-            Controls.Add(checkBox1);
+            Controls.Add(buttonDelete);
+            Controls.Add(labelSerieName);
+            Controls.Add(changeColorButton);
+            Controls.Add(checkBox);
             Name = "SerieSelector";
             Size = new Size(344, 38);
             ResumeLayout(false);
@@ -87,9 +87,9 @@
 
         #endregion
 
-        private CheckBox checkBox1;
-        private ChangeColorButton changeColorButton1;
-        private Label label1;
-        private Button button1;
+        private CheckBox checkBox;
+        private ChangeColorButton changeColorButton;
+        private Label labelSerieName;
+        private Button buttonDelete;
     }
 }

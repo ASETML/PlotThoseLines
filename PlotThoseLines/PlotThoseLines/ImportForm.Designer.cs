@@ -28,138 +28,139 @@
         /// </summary>
         private void InitializeComponent()
         {
-            label1 = new Label();
-            label2 = new Label();
-            button1 = new Button();
-            button2 = new Button();
-            button3 = new Button();
-            label3 = new Label();
-            errorLabel = new Label();
-            button4 = new Button();
-            button5 = new Button();
-            label4 = new Label();
+            labelImport = new Label();
+            labelRestore = new Label();
+            buttonImport = new Button();
+            buttonRestore = new Button();
+            buttonClose = new Button();
+            labeImportFile = new Label();
+            labelError = new Label();
+            buttonImportFile = new Button();
+            buttonRestoreFile = new Button();
+            labelRestoreFile = new Label();
             SuspendLayout();
             // 
-            // label1
+            // labelImport
             // 
-            label1.AutoSize = true;
-            label1.Location = new Point(39, 34);
-            label1.Margin = new Padding(4, 0, 4, 0);
-            label1.Name = "label1";
-            label1.Size = new Size(162, 21);
-            label1.TabIndex = 0;
-            label1.Text = "Importer des données";
+            labelImport.AutoSize = true;
+            labelImport.Location = new Point(39, 34);
+            labelImport.Margin = new Padding(4, 0, 4, 0);
+            labelImport.Name = "labelImport";
+            labelImport.Size = new Size(162, 21);
+            labelImport.TabIndex = 0;
+            labelImport.Text = "Importer des données";
             // 
-            // label2
+            // labelRestore
             // 
-            label2.AutoSize = true;
-            label2.Location = new Point(553, 34);
-            label2.Margin = new Padding(4, 0, 4, 0);
-            label2.Name = "label2";
-            label2.Size = new Size(245, 21);
-            label2.TabIndex = 1;
-            label2.Text = "Importer un fichier de sauvegarde";
+            labelRestore.AutoSize = true;
+            labelRestore.Location = new Point(553, 34);
+            labelRestore.Margin = new Padding(4, 0, 4, 0);
+            labelRestore.Name = "labelRestore";
+            labelRestore.Size = new Size(245, 21);
+            labelRestore.TabIndex = 1;
+            labelRestore.Text = "Importer un fichier de sauvegarde";
             // 
-            // button1
+            // buttonImport
             // 
-            button1.Location = new Point(66, 120);
-            button1.Margin = new Padding(4);
-            button1.Name = "button1";
-            button1.Size = new Size(96, 32);
-            button1.TabIndex = 2;
-            button1.Text = "Importer";
-            button1.UseVisualStyleBackColor = true;
-            button1.Click += button1_Click;
+            buttonImport.Location = new Point(66, 120);
+            buttonImport.Margin = new Padding(4);
+            buttonImport.Name = "buttonImport";
+            buttonImport.Size = new Size(96, 32);
+            buttonImport.TabIndex = 2;
+            buttonImport.Text = "Importer";
+            buttonImport.UseVisualStyleBackColor = true;
+            buttonImport.Click += buttonImport_Click;
             // 
-            // button2
+            // buttonRestore
             // 
-            button2.Location = new Point(612, 120);
-            button2.Margin = new Padding(4);
-            button2.Name = "button2";
-            button2.Size = new Size(96, 32);
-            button2.TabIndex = 3;
-            button2.Text = "Restaurer";
-            button2.UseVisualStyleBackColor = true;
-            button2.Click += button2_Click;
+            buttonRestore.Location = new Point(612, 120);
+            buttonRestore.Margin = new Padding(4);
+            buttonRestore.Name = "buttonRestore";
+            buttonRestore.Size = new Size(96, 32);
+            buttonRestore.TabIndex = 3;
+            buttonRestore.Text = "Restaurer";
+            buttonRestore.UseVisualStyleBackColor = true;
+            buttonRestore.Click += buttonRestore_Click;
             // 
-            // button3
+            // buttonClose
             // 
-            button3.Location = new Point(15, 581);
-            button3.Margin = new Padding(4);
-            button3.Name = "button3";
-            button3.Size = new Size(96, 32);
-            button3.TabIndex = 4;
-            button3.Text = "Retour";
-            button3.UseVisualStyleBackColor = true;
-            button3.Click += button3_Click;
+            buttonClose.Location = new Point(15, 581);
+            buttonClose.Margin = new Padding(4);
+            buttonClose.Name = "buttonClose";
+            buttonClose.Size = new Size(96, 32);
+            buttonClose.TabIndex = 4;
+            buttonClose.Text = "Retour";
+            buttonClose.UseVisualStyleBackColor = true;
+            buttonClose.Click += buttonClose_Click;
             // 
-            // label3
+            // labeImportFile
             // 
-            label3.AutoSize = true;
-            label3.Location = new Point(66, 77);
-            label3.Margin = new Padding(4, 0, 4, 0);
-            label3.Name = "label3";
-            label3.Size = new Size(128, 21);
-            label3.TabIndex = 5;
-            label3.Text = "Choisir un fichier";
-            label3.Click += button4_Click;
+            labeImportFile.AutoSize = true;
+            labeImportFile.Location = new Point(66, 77);
+            labeImportFile.Margin = new Padding(4, 0, 4, 0);
+            labeImportFile.Name = "labeImportFile";
+            labeImportFile.Size = new Size(128, 21);
+            labeImportFile.TabIndex = 5;
+            labeImportFile.Text = "Choisir un fichier";
+            labeImportFile.Click += buttonImportFile_Click;
             // 
-            // errorLabel
+            // labelError
             // 
-            errorLabel.AutoSize = true;
-            errorLabel.Location = new Point(414, 368);
-            errorLabel.Margin = new Padding(4, 0, 4, 0);
-            errorLabel.Name = "errorLabel";
-            errorLabel.Size = new Size(0, 21);
-            errorLabel.TabIndex = 7;
+            labelError.AutoSize = true;
+            labelError.Location = new Point(414, 368);
+            labelError.Margin = new Padding(4, 0, 4, 0);
+            labelError.Name = "labelError";
+            labelError.Size = new Size(0, 21);
+            labelError.TabIndex = 7;
             // 
-            // button4
+            // buttonImportFile
             // 
-            button4.BackgroundImage = Properties.Resources.folder_solid_full_small;
-            button4.Location = new Point(23, 71);
-            button4.Margin = new Padding(4);
-            button4.Name = "button4";
-            button4.Size = new Size(35, 32);
-            button4.TabIndex = 8;
-            button4.UseVisualStyleBackColor = true;
-            button4.Click += button4_Click;
+            buttonImportFile.BackgroundImage = Properties.Resources.folder_solid_full_small;
+            buttonImportFile.Location = new Point(23, 71);
+            buttonImportFile.Margin = new Padding(4);
+            buttonImportFile.Name = "buttonImportFile";
+            buttonImportFile.Size = new Size(35, 32);
+            buttonImportFile.TabIndex = 8;
+            buttonImportFile.UseVisualStyleBackColor = true;
+            buttonImportFile.Click += buttonImportFile_Click;
             // 
-            // button5
+            // buttonRestoreFile
             // 
-            button5.BackgroundImage = Properties.Resources.folder_solid_full_small;
-            button5.Location = new Point(569, 71);
-            button5.Margin = new Padding(4);
-            button5.Name = "button5";
-            button5.Size = new Size(35, 32);
-            button5.TabIndex = 10;
-            button5.UseVisualStyleBackColor = true;
-            button5.Click += button5_Click;
+            buttonRestoreFile.BackgroundImage = Properties.Resources.folder_solid_full_small;
+            buttonRestoreFile.Location = new Point(569, 71);
+            buttonRestoreFile.Margin = new Padding(4);
+            buttonRestoreFile.Name = "buttonRestoreFile";
+            buttonRestoreFile.Size = new Size(35, 32);
+            buttonRestoreFile.TabIndex = 10;
+            buttonRestoreFile.UseVisualStyleBackColor = true;
+            buttonRestoreFile.Click += buttonRestoreFile_Click;
             // 
-            // label4
+            // labelRestoreFile
             // 
-            label4.AutoSize = true;
-            label4.Location = new Point(612, 77);
-            label4.Margin = new Padding(4, 0, 4, 0);
-            label4.Name = "label4";
-            label4.Size = new Size(128, 21);
-            label4.TabIndex = 9;
-            label4.Text = "Choisir un fichier";
+            labelRestoreFile.AutoSize = true;
+            labelRestoreFile.Location = new Point(612, 77);
+            labelRestoreFile.Margin = new Padding(4, 0, 4, 0);
+            labelRestoreFile.Name = "labelRestoreFile";
+            labelRestoreFile.Size = new Size(128, 21);
+            labelRestoreFile.TabIndex = 9;
+            labelRestoreFile.Text = "Choisir un fichier";
+            labelRestoreFile.Click += buttonRestoreFile_Click;
             // 
             // ImportForm
             // 
             AutoScaleDimensions = new SizeF(9F, 21F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(1029, 630);
-            Controls.Add(button5);
-            Controls.Add(label4);
-            Controls.Add(button4);
-            Controls.Add(errorLabel);
-            Controls.Add(label3);
-            Controls.Add(button3);
-            Controls.Add(button2);
-            Controls.Add(button1);
-            Controls.Add(label2);
-            Controls.Add(label1);
+            Controls.Add(buttonRestoreFile);
+            Controls.Add(labelRestoreFile);
+            Controls.Add(buttonImportFile);
+            Controls.Add(labelError);
+            Controls.Add(labeImportFile);
+            Controls.Add(buttonClose);
+            Controls.Add(buttonRestore);
+            Controls.Add(buttonImport);
+            Controls.Add(labelRestore);
+            Controls.Add(labelImport);
             Margin = new Padding(4);
             Name = "ImportForm";
             Text = "ImportForm";
@@ -169,15 +170,15 @@
 
         #endregion
 
-        private Label label1;
-        private Label label2;
-        private Button button1;
-        private Button button2;
-        private Button button3;
-        private Label label3;
-        private Label errorLabel;
-        private Button button4;
-        private Button button5;
-        private Label label4;
+        private Label labelImport;
+        private Label labelRestore;
+        private Button buttonImport;
+        private Button buttonRestore;
+        private Button buttonClose;
+        private Label labeImportFile;
+        private Label labelError;
+        private Button buttonImportFile;
+        private Button buttonRestoreFile;
+        private Label labelRestoreFile;
     }
 }

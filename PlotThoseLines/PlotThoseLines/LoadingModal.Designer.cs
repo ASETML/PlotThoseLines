@@ -41,13 +41,16 @@
             pictureBox1.SizeMode = PictureBoxSizeMode.Zoom;
             pictureBox1.TabIndex = 0;
             pictureBox1.TabStop = false;
+            pictureBox1.UseWaitCursor = true;
             // 
             // LoadingModal
             // 
             AutoScaleDimensions = new SizeF(9F, 21F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(239, 182);
+            ControlBox = false;
             Controls.Add(pictureBox1);
+            MinimizeBox = false;
             Name = "LoadingModal";
             Text = "LoadingModal";
             ((System.ComponentModel.ISupportInitialize)pictureBox1).EndInit();
