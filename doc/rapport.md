@@ -71,5 +71,7 @@ Gitjournal
 ## Utilisation de l'IA
 ## Conclusion
 ### Bilan technique
+Les deux stories les plus importantes du projet ont été réalisé: l'import des données et le stockage dans une base de données. La story pour joindre les données n'a pas été réalisé par manque de temps et la story d'affichage n'a pas été complètement finie: il manque le survol des points
+
 ### Bilan personnel
 Bien que la planification initiale était cohérente, la mauvaise estimation du temps nécessaires aux à la réalisation des storie à mis le projet en retard. De plus, je me suis parfois éparpillé sur des tâches peu importantes avec des résultats peu probants ont également ralenti le projet. Par exemple: [spinner de chargement](https://github.com/ASETML/PlotThoseLines/commit/8ed0878cd8c2cdab19008a89e8694c0d5cd9c9f7), [afficher la valeur du point le plus proche du curseur](https://github.com/ASETML/PlotThoseLines/commit/d87814e9a825300703d0768004fa4048fe17fa69), [checkbox pour l'affichage des points](https://github.com/ASETML/PlotThoseLines/commit/d4e4ba550dd38fc57d4c01d559c685ea622af0b3)
