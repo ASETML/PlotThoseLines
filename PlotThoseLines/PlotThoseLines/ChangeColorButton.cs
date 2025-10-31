@@ -26,6 +26,8 @@ namespace PlotThoseLines
             colorDialog.ShowDialog();
 
             Program.series.First(s => s.Id == this._serie.Id).ChangeColor(colorDialog.Color);
+            SaveFile.UpdateSerieColor(this._serie);
+
             this.BackColor = _serie.Color.ToSDColor();
             this.ForeColor = _serie.Color.ToSDColor();
             ColorChanged.Invoke(this, EventArgs.Empty);

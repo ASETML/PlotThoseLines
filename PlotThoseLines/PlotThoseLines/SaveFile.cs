@@ -156,6 +156,32 @@ namespace PlotThoseLines
                 connection.Close();
             }
         }
+
+        /// <summary>
+        /// Change the serie color property in the database
+        /// </summary>
+        /// <param name="serie">The serie to update</param>
+        public static void UpdateSerieColor(Serie serie)
+        {
+            string connectionString = "Data Source=ptl.db;Version=3;";
+            SQLiteConnection connection = new SQLiteConnection(connectionString);
+
+            try
+            {
+                connection.Open();
+                new SQLiteCommand($"UPDATE series SET Color = '{serie.Color.ToStringRGBA()}' WHERE Id = '{serie.Id}'", connection).ExecuteNonQuery();
+                connection.Close();
+            }
+            catch (Exception ex)
+            {
+                Trace.WriteLine(ex.ToString());
+            }
+            finally
+            {
+                connection.Close();
+            }
+        }
+
         /// <summary>
         /// Delete a serie from the database
         /// </summary>
