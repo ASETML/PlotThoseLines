@@ -45,7 +45,7 @@ namespace PlotThoseLines
 
         public override string ToString()
         {
-            return $"Série {Id}: {Name} avec les valeurs {XaxisValue} en abscisse et {YaxisValue} en ordonnée. Afficher: {IsDisplayed}";
+            return $"Série {Id}: {Name} avec {XaxisValue.Count} valeurs en abscisse et {YaxisValue.Count} valeurs en ordonnée. Afficher: {IsDisplayed}";
         }
     }
 }
