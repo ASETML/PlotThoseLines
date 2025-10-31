@@ -11,11 +11,13 @@ namespace PlotThoseLines
     {
         public HomeForm()
         {
+            //Chargement des séries depuis le fichier de sauvegarde
             Program.series = new List<Serie>();
             SaveFile.Load();
 
             InitializeComponent();
 
+            //Affichage des données
             InstanciateCheckboxList();
             PlotForm();
         }
@@ -27,6 +29,7 @@ namespace PlotThoseLines
         {
             checkboxList.Controls.Clear();
             Program.series.ForEach(s => checkboxList.Controls.Add(new SerieSelector(s)));
+            //On écoute l'évènement pour recharger le graphique lorsqu'une série est modifier (checkbox et/ou couleur)
             foreach (SerieSelector s in checkboxList.Controls)
             {
                 s.SerieChanged += SerieChanged;
@@ -52,6 +55,7 @@ namespace PlotThoseLines
         public void PlotForm()
         {
             plot.Plot.Clear();
+            //Affiche seulement les series qui ont des valeurs et qui sont cochées
             Program.series.Where(s => s.IsDisplayed && s.YaxisValue.Count > 0).ToList().ForEach(s => plot.Plot.Add.Scatter(s.XaxisValue, s.YaxisValue, s.Color));
             plot.Refresh();
         }
