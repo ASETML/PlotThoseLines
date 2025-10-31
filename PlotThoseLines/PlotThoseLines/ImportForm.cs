@@ -134,6 +134,10 @@ namespace PlotThoseLines
         /// <param name="e"></param>
         private void buttonImport_Click(object sender, EventArgs e)
         {
+            //Spinner de chargement
+            LoadingModal loader = new LoadingModal();
+            loader.Show();
+
             if (!string.IsNullOrEmpty(_filename))
             {
                 bool success = ImportFile();
@@ -151,6 +155,8 @@ namespace PlotThoseLines
             {
                 this.labelError.Text = "Merci de choisir un fichier à importer";
             }
+
+            loader.Close();
         }
 
         /// <summary>
@@ -200,7 +206,6 @@ namespace PlotThoseLines
                 //Executer chaque commande du dump
                 string[] importSql = File.ReadAllLines(this._savefilename);
 
-                importSql.ToList().ForEach(x => Trace.WriteLine(x));
                 importSql.ToList().ForEach(x => new SQLiteCommand(x, connection).ExecuteNonQuery());
                 SaveFile.Load();
                 connection.Close();
