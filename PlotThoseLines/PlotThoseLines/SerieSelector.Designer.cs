@@ -28,65 +28,66 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.checkBox = new System.Windows.Forms.CheckBox();
-            this.changeColorButton = new PlotThoseLines.ChangeColorButton();
-            this.labelSerieName = new System.Windows.Forms.Label();
-            this.buttonDelete = new System.Windows.Forms.Button();
-            this.SuspendLayout();
+            checkBox = new CheckBox();
+            changeColorButton = new ChangeColorButton();
+            labelSerieName = new Label();
+            buttonDelete = new Button();
+            SuspendLayout();
             // 
             // checkBox
             // 
-            this.checkBox.AutoSize = true;
-            this.checkBox.Location = new System.Drawing.Point(2, 8);
-            this.checkBox.Margin = new System.Windows.Forms.Padding(2);
-            this.checkBox.Name = "checkBox";
-            this.checkBox.Size = new System.Drawing.Size(15, 14);
-            this.checkBox.TabIndex = 0;
-            this.checkBox.UseVisualStyleBackColor = true;
+            checkBox.AutoSize = true;
+            checkBox.Location = new Point(2, 8);
+            checkBox.Margin = new Padding(2);
+            checkBox.Name = "checkBox";
+            checkBox.Size = new Size(15, 14);
+            checkBox.TabIndex = 0;
+            checkBox.UseVisualStyleBackColor = true;
             // 
             // changeColorButton
             // 
-            this.changeColorButton.Location = new System.Drawing.Point(367, 4);
-            this.changeColorButton.Margin = new System.Windows.Forms.Padding(2);
-            this.changeColorButton.Name = "changeColorButton";
-            this.changeColorButton.Size = new System.Drawing.Size(28, 21);
-            this.changeColorButton.TabIndex = 1;
-            this.changeColorButton.Text = "changeColorButton1";
-            this.changeColorButton.UseVisualStyleBackColor = true;
+            changeColorButton.Location = new Point(347, 3);
+            changeColorButton.Margin = new Padding(2);
+            changeColorButton.Name = "changeColorButton";
+            changeColorButton.Size = new Size(28, 21);
+            changeColorButton.TabIndex = 1;
+            changeColorButton.Text = "changeColorButton1";
+            changeColorButton.UseVisualStyleBackColor = true;
             // 
             // labelSerieName
             // 
-            this.labelSerieName.AutoSize = true;
-            this.labelSerieName.Location = new System.Drawing.Point(21, 6);
-            this.labelSerieName.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
-            this.labelSerieName.Name = "labelSerieName";
-            this.labelSerieName.Size = new System.Drawing.Size(38, 15);
-            this.labelSerieName.TabIndex = 2;
-            this.labelSerieName.Text = "label1";
+            labelSerieName.AutoSize = true;
+            labelSerieName.Location = new Point(21, 6);
+            labelSerieName.Margin = new Padding(2, 0, 2, 0);
+            labelSerieName.Name = "labelSerieName";
+            labelSerieName.Size = new Size(38, 15);
+            labelSerieName.TabIndex = 2;
+            labelSerieName.Text = "label1";
             // 
             // buttonDelete
             // 
-            this.buttonDelete.Location = new System.Drawing.Point(399, 4);
-            this.buttonDelete.Margin = new System.Windows.Forms.Padding(2);
-            this.buttonDelete.Name = "buttonDelete";
-            this.buttonDelete.Size = new System.Drawing.Size(19, 21);
-            this.buttonDelete.TabIndex = 3;
-            this.buttonDelete.Text = "X";
-            this.buttonDelete.UseVisualStyleBackColor = true;
+            buttonDelete.Location = new Point(379, 4);
+            buttonDelete.Margin = new Padding(2);
+            buttonDelete.Name = "buttonDelete";
+            buttonDelete.Size = new Size(19, 21);
+            buttonDelete.TabIndex = 3;
+            buttonDelete.Text = "X";
+            buttonDelete.UseVisualStyleBackColor = true;
+            buttonDelete.Click += button1_Click;
             // 
             // SerieSelector
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.Controls.Add(this.buttonDelete);
-            this.Controls.Add(this.labelSerieName);
-            this.Controls.Add(this.changeColorButton);
-            this.Controls.Add(this.checkBox);
-            this.Margin = new System.Windows.Forms.Padding(2);
-            this.Name = "SerieSelector";
-            this.Size = new System.Drawing.Size(420, 27);
-            this.ResumeLayout(false);
-            this.PerformLayout();
+            AutoScaleDimensions = new SizeF(7F, 15F);
+            AutoScaleMode = AutoScaleMode.Font;
+            Controls.Add(buttonDelete);
+            Controls.Add(labelSerieName);
+            Controls.Add(changeColorButton);
+            Controls.Add(checkBox);
+            Margin = new Padding(2);
+            Name = "SerieSelector";
+            Size = new Size(400, 27);
+            ResumeLayout(false);
+            PerformLayout();
 
         }
 
