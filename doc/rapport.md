@@ -69,6 +69,7 @@ Maquettes:
 ## Journal de travail
 Gitjournal
 ## Utilisation de l'IA
+Je n'ai pas utilisé d'outil d'intellingence artificielle lors de ce projet, car je n'ai pas recontré de problèmes ne pouvant être résolu par des moyens traditionnels, comme une recherche google.
 ## Conclusion
 ### Bilan technique
 Les deux stories les plus importantes du projet ont été réalisé: l'import des données et le stockage dans une base de données. La story pour joindre les données n'a pas été réalisé par manque de temps et la story d'affichage n'a pas été complètement finie: il manque le survol des points
