@@ -85,7 +85,7 @@ namespace PlotThoseLines
         {
             Directory.CreateDirectory("snapshots");
             DateTime now = DateTime.Now;
-            string saveFileName = $"snapshots\\ptl-{now.Year}{now.Month}{now.Day}-{now.Hour}:{now.Minute}:{now.Second}.sql";
+            string saveFileName = $"snapshots\\ptl-{now.Year}-{now.Month}-{now.Day}-{now.Hour}h{now.Minute}m{now.Second}s.sql";
 
             try
             {
