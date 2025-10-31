@@ -28,80 +28,75 @@
         /// </summary>
         private void InitializeComponent()
         {
-            plot = new ScottPlot.WinForms.FormsPlot();
-            btnImport = new Button();
-            btnJoin = new Button();
-            btnFunction = new Button();
-            checkboxList = new FlowLayoutPanel();
-            SuspendLayout();
+            this.plot = new ScottPlot.WinForms.FormsPlot();
+            this.btnImport = new System.Windows.Forms.Button();
+            this.btnJoin = new System.Windows.Forms.Button();
+            this.btnFunction = new System.Windows.Forms.Button();
+            this.checkboxList = new System.Windows.Forms.FlowLayoutPanel();
+            this.SuspendLayout();
             // 
             // plot
             // 
-            plot.DisplayScale = 1F;
-            plot.Location = new Point(372, 17);
-            plot.Margin = new Padding(4);
-            plot.Name = "plot";
-            plot.Size = new Size(829, 596);
-            plot.TabIndex = 0;
+            this.plot.DisplayScale = 1F;
+            this.plot.Location = new System.Drawing.Point(437, 12);
+            this.plot.Name = "plot";
+            this.plot.Size = new System.Drawing.Size(645, 426);
+            this.plot.TabIndex = 0;
             // 
             // btnImport
             // 
-            btnImport.Location = new Point(8, 540);
-            btnImport.Margin = new Padding(4);
-            btnImport.Name = "btnImport";
-            btnImport.Size = new Size(168, 32);
-            btnImport.TabIndex = 1;
-            btnImport.Text = "Importer / Restaurer";
-            btnImport.UseVisualStyleBackColor = true;
-            btnImport.Click += btnImport_Click;
+            this.btnImport.Location = new System.Drawing.Point(6, 386);
+            this.btnImport.Name = "btnImport";
+            this.btnImport.Size = new System.Drawing.Size(131, 23);
+            this.btnImport.TabIndex = 1;
+            this.btnImport.Text = "Importer / Restaurer";
+            this.btnImport.UseVisualStyleBackColor = true;
             // 
             // btnJoin
             // 
-            btnJoin.Enabled = false;
-            btnJoin.Location = new Point(8, 581);
-            btnJoin.Margin = new Padding(4);
-            btnJoin.Name = "btnJoin";
-            btnJoin.Size = new Size(96, 32);
-            btnJoin.TabIndex = 2;
-            btnJoin.Text = "Joindre";
-            btnJoin.UseVisualStyleBackColor = true;
-            btnJoin.Click += btnJoin_Click;
+            this.btnJoin.Enabled = false;
+            this.btnJoin.Location = new System.Drawing.Point(6, 415);
+            this.btnJoin.Name = "btnJoin";
+            this.btnJoin.Size = new System.Drawing.Size(75, 23);
+            this.btnJoin.TabIndex = 2;
+            this.btnJoin.Text = "Joindre";
+            this.btnJoin.UseVisualStyleBackColor = true;
             // 
             // btnFunction
             // 
-            btnFunction.Enabled = false;
-            btnFunction.Location = new Point(112, 581);
-            btnFunction.Margin = new Padding(4);
-            btnFunction.Name = "btnFunction";
-            btnFunction.Size = new Size(64, 32);
-            btnFunction.TabIndex = 3;
-            btnFunction.Text = "f(x)";
-            btnFunction.UseVisualStyleBackColor = true;
+            this.btnFunction.Enabled = false;
+            this.btnFunction.Location = new System.Drawing.Point(87, 415);
+            this.btnFunction.Name = "btnFunction";
+            this.btnFunction.Size = new System.Drawing.Size(50, 23);
+            this.btnFunction.TabIndex = 3;
+            this.btnFunction.Text = "f(x)";
+            this.btnFunction.UseVisualStyleBackColor = true;
             // 
             // checkboxList
             // 
-            checkboxList.AutoScroll = true;
-            checkboxList.FlowDirection = FlowDirection.TopDown;
-            checkboxList.Location = new Point(8, 17);
-            checkboxList.Name = "checkboxList";
-            checkboxList.Size = new Size(357, 508);
-            checkboxList.TabIndex = 6;
-            checkboxList.WrapContents = false;
+            this.checkboxList.AutoScroll = true;
+            this.checkboxList.FlowDirection = System.Windows.Forms.FlowDirection.TopDown;
+            this.checkboxList.Location = new System.Drawing.Point(6, 12);
+            this.checkboxList.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.checkboxList.Name = "checkboxList";
+            this.checkboxList.Size = new System.Drawing.Size(426, 363);
+            this.checkboxList.TabIndex = 6;
+            this.checkboxList.WrapContents = false;
             // 
             // HomeForm
             // 
-            AutoScaleDimensions = new SizeF(9F, 21F);
-            AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(1198, 630);
-            Controls.Add(checkboxList);
-            Controls.Add(btnFunction);
-            Controls.Add(btnJoin);
-            Controls.Add(btnImport);
-            Controls.Add(plot);
-            Margin = new Padding(4);
-            Name = "HomeForm";
-            Text = "Plot Those Lines - Accueil";
-            ResumeLayout(false);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
+            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.ClientSize = new System.Drawing.Size(1091, 450);
+            this.Controls.Add(this.checkboxList);
+            this.Controls.Add(this.btnFunction);
+            this.Controls.Add(this.btnJoin);
+            this.Controls.Add(this.btnImport);
+            this.Controls.Add(this.plot);
+            this.Name = "HomeForm";
+            this.Text = "Plot Those Lines - Accueil";
+            this.ResumeLayout(false);
+
         }
 
         #endregion
