@@ -11,14 +11,16 @@ namespace PlotThoseLines
 {
     public static class SaveFile
     {
+        //Connection à la DB
+        static string connectionString = "Data Source=ptl.db;Version=3;";
+        static SQLiteConnection connection = new SQLiteConnection(connectionString);
+
         /// <summary>
         /// Load series from the database
         /// </summary>
         public static void Load()
         {
-            string connectionString = "Data Source=ptl.db;Version=3;";
-            SQLiteConnection connection = new SQLiteConnection(connectionString);
-            //Restore series from savefile
+            //Création des tables si elles n'existent pas encore
             string createSeriesTableSql = "CREATE TABLE IF NOT EXISTS series (Id INTEGER PRIMARY KEY, Name TEXT, IsDisplayed BOOLEAN, Color TEXT)";
             string createPointsTableSql = "CREATE TABLE IF NOT EXISTS points (X FLOAT, Y FLOAT, Serie INTEGER, FOREIGN KEY(Serie) REFERENCES series(Id))";
 
@@ -28,35 +30,38 @@ namespace PlotThoseLines
             connection.Open();
             createSeriesTableCommand.ExecuteNonQuery();
             createPointsTableCommand.ExecuteNonQuery();
+
+            //Récupération des séries dans la DB
             string sql = "SELECT * FROM series JOIN points ON series.Id = points.Serie";
             SQLiteCommand command = new SQLiteCommand(sql, connection);
 
             SQLiteDataReader reader = command.ExecuteReader();
             try
             {
-                // Check if rows are returned
                 if (reader.HasRows)
                 {
                     while (reader.Read())
                     {
+                        //Récupération des valeurs
                         int Id = reader.GetInt32("Id");
-                        string Name = reader.GetString("Name");
-                        string IsDisplayed = reader.GetString("IsDisplayed"); ;
-                        string Color = reader.GetString("Color");
                         double X = reader.GetDouble("X");
                         double Y = reader.GetDouble("Y");
+
+                        //Créer la série si elle n'existe pas encore
                         if (Program.series.Where(s => s.Id == Id).Count() == 0)
                         {
+                            //Récupération des valeurs pour la création de la série
+                            string Name = reader.GetString("Name");
+                            string IsDisplayed = reader.GetString("IsDisplayed"); ;
+                            string Color = reader.GetString("Color");
+
                             Program.series.Add(new Serie(Id, Name, Boolean.Parse(IsDisplayed), Color));
                         }
 
+                        //Ajouter les valeurs à la série
                         Program.series.Where(s => s.Id == Id).First().XaxisValue.Add(X);
                         Program.series.Where(s => s.Id == Id).First().YaxisValue.Add(Y);
                     }
-                }
-                else
-                {
-                    Trace.WriteLine("No rows found.");
                 }
                 reader.Close();
                 connection.Close();
@@ -78,12 +83,9 @@ namespace PlotThoseLines
         /// </summary>
         public static void Save()
         {
-            string connectionString = "Data Source=ptl.db;Version=3;";
-            SQLiteConnection connection = new SQLiteConnection(connectionString);
-
             Directory.CreateDirectory("snapshots");
             DateTime now = DateTime.Now;
-            string saveFileName = $"snapshots\\ptl-{now.Year}-{now.Month}-{now.Day}-{now.Hour}-{now.Minute}-{now.Second}.sql";
+            string saveFileName = $"snapshots\\ptl-{now.Year}{now.Month}{now.Day}-{now.Hour}:{now.Minute}:{now.Second}.sql";
 
             try
             {
@@ -92,8 +94,10 @@ namespace PlotThoseLines
                     File.Create("ptl.db").Close();
                 }
 
+                //Liste des commandes effectuée
                 List<string> sqlCommands = new List<string>();
 
+                //Insert les points dans la DB
                 Action<(double, double), int> SavePoint = (t, i) =>
                 {
                     string insertPointSql = $"INSERT INTO points (X, Y, Serie) VALUES ('{t.Item1}', '{t.Item2}', '{i}')";
@@ -102,6 +106,7 @@ namespace PlotThoseLines
                     sqlCommands.Add(insertPointSql + ";");
                 };
 
+                //Insert les séries dans la DB
                 Action<Serie> SaveSerie = s =>
                 {
                     string insertSerieSql = $"INSERT INTO series (Id, Name, IsDisplayed, Color) VALUES ('{s.Id}', '{s.Name.ToString().Replace('\'', '"')}', '{s.IsDisplayed}', '{s.Color.ToStringRGBA()}')";
@@ -110,6 +115,7 @@ namespace PlotThoseLines
 
                     sqlCommands.Add(insertSerieSql + ";");
 
+                    //Insert les points
                     List<(double, double)> values = s.XaxisValue.Zip(s.YaxisValue).ToList();
                     values.ForEach(x => SavePoint(x, s.Id));
                 };
@@ -119,6 +125,8 @@ namespace PlotThoseLines
                 new SQLiteCommand("DELETE FROM series", connection).ExecuteNonQuery();
 
                 Program.series.ForEach(s => SaveSerie(s));
+
+                //Snapshot
                 File.AppendAllLines(saveFileName, sqlCommands.ToArray());
                 connection.Close();
             }
@@ -138,9 +146,6 @@ namespace PlotThoseLines
         /// <param name="serie">The serie to update</param>
         public static void UpdateSerieCheck(Serie serie)
         {
-            string connectionString = "Data Source=ptl.db;Version=3;";
-            SQLiteConnection connection = new SQLiteConnection(connectionString);
-
             try
             {
                 connection.Open();
@@ -163,9 +168,6 @@ namespace PlotThoseLines
         /// <param name="serie">The serie to update</param>
         public static void UpdateSerieColor(Serie serie)
         {
-            string connectionString = "Data Source=ptl.db;Version=3;";
-            SQLiteConnection connection = new SQLiteConnection(connectionString);
-
             try
             {
                 connection.Open();
@@ -188,9 +190,6 @@ namespace PlotThoseLines
         /// <param name="serie">The serie to delete</param>
         public static void DeleteSerie(Serie serie)
         {
-            string connectionString = "Data Source=ptl.db;Version=3;";
-            SQLiteConnection connection = new SQLiteConnection(connectionString);
-
             try
             {
                 connection.Open();
