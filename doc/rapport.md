@@ -1,4 +1,26 @@
 # Plot Those Lines
+
+## Table des matières
+- [Table des matières](#table-des-matières)
+- [Introduction](#introduction)
+    - [Objectif pédagogique](#objectif-pédagogique)
+    - [Objectif produit](#objectif-produit)
+        - [Schéma de l'environement](#schéma-de-lenvironement)
+        - [Analyse fonctionnelle](#analyse-fonctionnelle)
+        - [Maquettes](#maquettes)
+    - [Description du domaine](#description-du-domaine)
+- [Planification](#planification)
+    - [Modification semaine 7](#modification-semaine-7)
+- [Rapport de tests](#rapport-de-tests)
+    - [Afficher des séries temporelles](#afficher-des-séries-temporelles) 
+    - [Importer des séries de manière permanente](#importer-des-séries-de-manière-permanente)
+    - [Flexibilité de l'affichage](#flexibilité-de-laffichage)
+- [Journal de travail](#journal-de-travail)
+- [Utilisation de l'IA](#utilisation-de-lia)
+- [Conclusion](#conclusion)
+    - [Bilan technique](#bilan-technique)
+    - [Bilan personnel](#bilan-personnel)
+
 ## Introduction
 ### Objectif pédagogique
 Le but de ce projet est d'appliquer nos connaissances en programmation fonctionnelle avec linQ, ainsi que de remettre en pratique les connaissances de Programmation Orientée Objet vue en deuxième année. De plus il s'agit d'une occasion d'appliquer les conventions de codage et de renforcer nos capacités à produire un code propre, commenté, testé et dépourvu de bugs. La phase de planification permettra également d'ameliorer nos compétences en rédaction d'User Story et tests d'acceptances. 
@@ -8,6 +30,15 @@ L'objectif de ce projet est de réaliser une application pour afficher des donn�
 
 #### Schéma de l'environement
 !["Schéma de de l'environement"](./img/schema.png)
+L'utilisateur importe des fichiers Excel téléchargé depuis le site de l'[IMF](https://imf.org) dans l'application Plot Those Lines. L'application stocke ensuite ces données dans une base de données SQlite et en fait une snapshot sous forme de fichier SQL pour pouvoir facilement revenir à un état précédent.
+
+#### Analyse fonctionnelle
+La liste des fonctionnalité est la suivante:
+- [Afficher des séries temporelles](https://github.com/ASETML/PlotThoseLines/issues/1)
+- [Flexibilité de l'affichage](https://github.com/ASETML/PlotThoseLines/issues/2)
+- [Importer des séries de manières permanentes](https://github.com/ASETML/PlotThoseLines/issues/3)
+- [Joindre des séries](https://github.com/ASETML/PlotThoseLines/issues/4)
+- [Afficher des fonctions](https://github.com/ASETML/PlotThoseLines/issues/5)
 
 #### Maquettes
 - La page d'accueil:
