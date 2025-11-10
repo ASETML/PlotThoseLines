@@ -1,5 +1,4 @@
 # Plot Those Lines
-
 ## Table des matières
 - [Table des matières](#table-des-matières)
 - [Introduction](#introduction)
@@ -29,7 +28,7 @@ Le but de ce projet est d'appliquer nos connaissances en programmation fonctionn
 L'objectif de ce projet est de réaliser une application pour afficher des données sous forme de séries temporelles. L'application permettra d'importer des fichiers de données. Ces fichiers seront stockés de manière permanente et seront affichée dans un graphique, avec le temps en abscisse et les valeurs en ordonnée. L'application permettra de seléctionner quelles séries sont affichées ainsi que leur couleur. Il sera également possible de joindre des séries, par exemple: si j'ai un fichier qui contient les données des années 2021 à 2023 et un autre fichier qui contient les données de 2024 et 2025, il est possible de combiner ces séries pour en faire une série de 2020 à 2025. De plus, un mode fonction permetant d'afficher des fonctions mathématique pourra être implementé.
 
 #### Schéma de l'environement
-!["Schéma de de l'environement"](./img/schema.png)
+!["Schéma de de l'environement"](./img/schema.png)<br>
 L'utilisateur importe des fichiers Excel téléchargé depuis le site de l'[IMF](https://imf.org) dans l'application Plot Those Lines. L'application stocke ensuite ces données dans une base de données SQlite et en fait une snapshot sous forme de fichier SQL pour pouvoir facilement revenir à un état précédent.
 
 #### Analyse fonctionnelle
