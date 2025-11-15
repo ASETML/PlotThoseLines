@@ -35,3 +35,14 @@
 - Ecologie (.gitignore): OK
 - Attitude groupe: OK
 - Attitude personnelle: OK
+
+## Final
+
+Globalement c'est un vraiment bon projet. Bravo. 
+
+Il y a quand même quelques petits détails à relever:
+- vos release ne sont pas faites correctement. Comme il est dit dans le project handbook, le journal de travail et le rapport au format PDF, tous les deux doivent être joint à la release. Je ne vous pénalise pas pour ce point-là, car j'aurais dû le mentionner plus tôt.
+- dans votre rapport, vous donnez un lien sur l'export PDF de votre journal de travail. Malheureusement ce lien pointe vers un fichier lequel de votre machine.
+- la présentation des maquettes dans le rapport est superflue. Vous les avez correctement intégrées au US sur Github et on les atteint d'un clic depuis les liens dans votre rapport. De plus, leur mise en page dans le rapport est très peu lisible.
+
+Projet validé
